@@ -69,9 +69,10 @@ gulp.task('test', ['scripts'], function () {
     .pipe($.mocha({reporter: 'nyan'}));
 });
 
-gulp.task( 'default', [ 'scripts', 'sass', 'static', 'watch', 'webserver' ] );
+gulp.task( 'build', ['scripts', 'sass', 'static']);
+gulp.task( 'default', [ 'build', 'watch', 'webserver' ] );
 
 gulp.task('deploy', ['build'], function () {
-  return gulp.src(paths.webDist + '/**/*')
+  return gulp.src(paths.client.dist + '/**/*')
     .pipe($.ghPages('https://github.com/rileyjshaw/challenge-framework.git', 'origin'));
 });
