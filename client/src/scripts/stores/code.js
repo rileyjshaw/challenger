@@ -15,8 +15,6 @@ var categorizeChains = require('../util/categorizeChains');
 var chainMatch = require('../util/chainMatch');
 var fillArray = require('../util/fillArray');
 
-// internal, returns an obj that can be used by acorn's ancestor walk
-
 var codeStore = Reflux.createStore({
   listenables: actions,
   init() {
@@ -49,19 +47,21 @@ var codeStore = Reflux.createStore({
     }
   },
 
-  onChallengeUpdate(newChallenge) {
-    this.onCodeEditOverride(newChallenge.initialText || '');
-  },
-
+  // edits code and overwrites it in CodeMirror
   onCodeEditOverride(input) {
     // this.text will be set on the resultant onCodeEditUser action
     this.trigger(input);
   },
 
+  onChallengeUpdate(newChallenge) {
+    this.onCodeEditOverride(newChallenge.initialText || '');
+  },
+
   verifyInput(input) {
-    // reset this.present; `walk` flips matches to true
+    // reset this.present
     this.present = fillArray(this.numRules, false);
 
+    // `walk` sets this.present to true for matching rules
     try {
       let ast = acorn.parse(input);
       walk(ast, this.expRules);
@@ -71,6 +71,7 @@ var codeStore = Reflux.createStore({
     }
   },
 
+  // returns an obj that can be used by acorn's ancestor walk
   createWalkableRuleset(expressionChains) {
     var newExpRules = {};
     var categorized = categorizeChains(expressionChains);
