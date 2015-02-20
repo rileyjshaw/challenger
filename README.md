@@ -4,8 +4,6 @@
 
 **Time to build: ~7 hours**
 
-**Time wasted trying to get gulp to build my damn sourcemaps through 6to5, Reactify, and UglifyJS: ~6.75 hours**
-
 Created for Khan Academy.
 
 ## The problem
