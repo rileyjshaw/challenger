@@ -4,12 +4,7 @@ var Rule = require('./Rule.jsx');
 var RuleList = React.createClass({
 
   render() {
-    // destructure this.props
-    var {
-      expressionChains: expressionChains,
-      required: required,
-      present: present
-    } = this.props;
+    var {expressionChains, required, present} = this.props;
 
     var rules = expressionChains.map(function (chain, i) {
       return (
