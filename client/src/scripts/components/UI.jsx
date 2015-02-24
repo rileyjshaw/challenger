@@ -1,4 +1,4 @@
-var React = require('react');
+var {React, createPureClass} = require('../util/createPureClass.js');
 
 // reflux
 var Reflux = require('reflux');
@@ -9,7 +9,7 @@ var codeStore = require('../stores/code');
 var ChallengeEditor = require('./ChallengeEditor.jsx');
 var Challenge = require('./Challenge.jsx');
 
-var UI = React.createClass({
+var UI = createPureClass({
   mixins: [
     Reflux.connect(ruleStore),
     Reflux.listenTo(codeStore, 'onCodeStoreChange')

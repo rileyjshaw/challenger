@@ -1,7 +1,7 @@
-var React = require('react');
+var {React, createPureClass} = require('../util/createPureClass.js');
 var Rule = require('./Rule.jsx');
 
-var RuleList = React.createClass({
+var RuleList = createPureClass({
 
   render() {
     var {expressionChains, required, present} = this.props;

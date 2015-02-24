@@ -1,9 +1,9 @@
-var React = require('react');
+var {React, createPureClass} = require('../util/createPureClass.js');
 
 var RuleList = require('./RuleList.jsx');
 var Editor = require('./Editor.jsx');
 
-var Challenge = React.createClass({
+var Challenge = createPureClass({
   success: () => alert('You did it!'),
 
   render() {

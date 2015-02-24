@@ -1,7 +1,7 @@
-var React = require('react');
+var {React, createPureClass} = require('../util/createPureClass.js');
 var isVowel = require('../util/isVowel');
 
-var Rule = React.createClass({
+var Rule = createPureClass({
   render() {
     // destructure this.props
     var {
