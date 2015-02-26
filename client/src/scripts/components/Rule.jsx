@@ -4,11 +4,7 @@ var isVowel = require('../util/isVowel');
 var Rule = createPureClass({
   render() {
     // destructure this.props
-    var {
-      expressionChain: expressionChain,
-      required: required,
-      present: present
-    } = this.props;
+    var { expressionChain, required, present } = this.props;
 
     var description =
       // either the passed description, or,
