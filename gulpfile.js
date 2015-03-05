@@ -9,6 +9,8 @@ var paths = require('./paths.js');
 var argv = process.argv;
 var PROD = argv[argv.length - 1] === '--prod' || argv[2] === 'deploy';
 
+process.env.NODE_ENV = PROD ? 'production' : 'development';
+
 gulp.task('lint', function () {
   return gulp.src(paths.scripts.all)
     .pipe($.jshint())

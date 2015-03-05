@@ -19,10 +19,10 @@ var UI = createPureClass({
     return {
       title: '',
       description: '',
+      valid: true,
       expressionChains: [],
       required: [],
-      present: [],
-      valid: true
+      present: []
     };
   },
 
@@ -39,12 +39,10 @@ var UI = createPureClass({
       <Challenge
         title={this.state.title}
         description={this.state.description}
+        valid={this.state.valid}
         expressionChains={this.state.expressionChains}
         required={this.state.required}
         present={this.state.present}
-        valid={this.state.valid}
-        // true if the `required` and `present` arrays match perfectly
-        correct={this.state.required.every((x, i) => x === this.state.present[i])}
       />
     );
   },

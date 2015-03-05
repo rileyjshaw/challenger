@@ -1,7 +1,15 @@
 var {React, createPureClass} = require('../util/createPureClass.js');
 var Rule = require('./Rule.jsx');
 
+var makeReadable = require('../util/makeReadable');
+
 var RuleList = createPureClass({
+  propTypes: {
+    valid: React.PropTypes.bool.isRequired,
+    expressionChains: React.PropTypes.arrayOf(React.PropTypes.array).isRequired,
+    required: React.PropTypes.arrayOf(React.PropTypes.bool).isRequired,
+    present: React.PropTypes.arrayOf(React.PropTypes.bool).isRequired
+  },
 
   render() {
     var {expressionChains, required, present} = this.props;
@@ -10,7 +18,7 @@ var RuleList = createPureClass({
       return (
         <Rule
           key={i + 1}
-          expressionChain={chain}
+          description={makeReadable(chain)}
           required={required[i]}
           present={present[i]}
         />

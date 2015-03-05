@@ -1,32 +1,15 @@
 var {React, createPureClass} = require('../util/createPureClass.js');
-var isVowel = require('../util/isVowel');
 
 var Rule = createPureClass({
+  propTypes: {
+    description: React.PropTypes.node.isRequired, // string or array
+    required: React.PropTypes.bool.isRequired,
+    present: React.PropTypes.bool.isRequired
+  },
+
   render() {
     // destructure this.props
-    var { expressionChain, required, present } = this.props;
-
-    var description =
-      // either the passed description, or,
-      this.props.description ||
-      // the expression chain translated to plain English
-      expressionChain.map(function (exp, i) {
-        // add spaces to the expression name and lowercase it
-        var readableExp = exp.replace(/(.)([A-Z])/g, '$1 $2').toLowerCase();
-
-        return (
-          <span key={i}>
-            {/* add `contain` for the first expression and `within` subsequently */}
-            {i ? ' within ' : 'contain '}
-            {/* prepend with 'a' or 'an', depending on the first character */}
-            {isVowel(exp[0]) ? 'an ' : 'a '}
-            <strong>
-              {readableExp}
-            </strong>
-          </span>
-        );
-      });
-
+    var { description, required, present } = this.props;
     var instructions = `Program must ${required ? '' : 'not '}`;
 
     return (
