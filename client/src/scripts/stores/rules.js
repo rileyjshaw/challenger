@@ -10,10 +10,10 @@ var ruleStore = Reflux.createStore({
   init() { this.rules = {}; },
 
   onChallengeUpdate(newChallenge) {
-    this.rules = parseChallenge(newChallenge);
+    this.challenge = parseChallenge(newChallenge);
 
     // pass on to listeners
-    this.trigger(this.rules);
+    this.trigger(this.challenge);
   }
 });
 

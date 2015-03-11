@@ -16,11 +16,17 @@ module.exports = {
   initialText: initialText,
   whitelist: ['ForStatement'],
   blacklist: ['WhileStatement'],
-  structure: {
+  nestedRules: {
     ForStatement: {
       IfStatement: {
         required: true
       }
     }
-  }
+  },
+  customRules: [
+    {
+      description: 'Must have the word \'poo\' in it.',
+      fn: function (code) { return code.indexOf('foobar') > -1;}
+    }
+  ]
 };

@@ -8,7 +8,7 @@ var ruleStore = require('./rules');
 
 // acorn
 var acorn = require('acorn');
-var walk = require('acorn/util/walk').ancestor;
+var walkAST = require('acorn/util/walk').ancestor;
 
 // utils
 var categorizeChains = require('../util/categorizeChains');
@@ -21,80 +21,96 @@ var codeStore = Reflux.createStore({
     // stored values
     this.code = '';
     this.present = [];
-    this.expRules = {};
+    this.customRules = [];
+    this.nestedRules = [];
+    this.walkableNestedRules = {};
 
     // register ruleStore's changes
     this.listenTo(ruleStore, this.updateRuleset);
   },
 
-  updateRuleset(rules) {
-    var expressionChains = rules.expressionChains;
-    this.numRules = expressionChains.length;
-    this.expRules = this.createWalkableRuleset(expressionChains);
+  updateRuleset({rules, numRules, initialText}) {
+    // add `index` key to rule array to keep position reference
+    // in filtered lists
+    rules = rules.map((rule, i) => {
+      rule.index = i;
+      return rule;
+    });
+
+    this.numRules = numRules;
+    this.customRules = rules.filter(rule => rule.type === 'custom');
+    this.nestedRules = rules.filter(rule => rule.type === 'expressionChain');
+    this.walkableNestedRules = this.createWalkableRuleset(this.nestedRules);
+    // TODO: this.expectedOutput = ...
+
+    this.onCodeEditOverride(initialText);
   },
 
-  // handle codeEditUser action, called from Editor
+  // handle codeEditUser action, called from Editor.
+  // verifyStructure, verifyCustomRules, and verifyOutput
+  // all have side effects on the this.present array,
+  // updating it for the current input.
   onCodeEditUser(input) {
-    this.code = input;
+    // the following three methods have side effects on `this.present`
+    var codeIsValid = this.verifyNestedRules(input);
+    // TODO if (codeIsValid) this.validateOutput();
+    this.verifyCustomRules(input);
 
-    if (this.verifyInput(input)) {
-      this.trigger({
-        present: this.present,
-        valid: true
-      });
-    } else {
-      this.trigger({ valid: false });
-    }
+    this.code = input;
+    this.trigger({
+      // send a new object, since pureRenderMixin compares pointers
+      present: this.present.slice(),
+      valid: codeIsValid
+    });
   },
 
   // edits code and overwrites it in CodeMirror
   onCodeEditOverride(input) {
-    // this.text will be set on the resultant onCodeEditUser action
+    // this.code will be set on the resultant onCodeEditUser action
     this.trigger(input);
   },
 
-  onChallengeUpdate(newChallenge) {
-    this.onCodeEditOverride(newChallenge.initialText || '');
-  },
+  verifyNestedRules(input) {
+    // reset each nestedRule index in this.present to false
+    this.nestedRules.forEach(({index}) => this.present[index] = false);
 
-  verifyInput(input) {
-    // reset this.present
-    this.present = fillArray(this.numRules, false);
-
-    // `walk` sets this.present to true for matching rules
+    // `walkAST` sets this.present to true for matching rules
     try {
       let ast = acorn.parse(input);
-      walk(ast, this.expRules);
+      walkAST(ast, this.walkableNestedRules);
       return true;
     } catch (err) {
       return false;
     }
   },
 
-  // returns an obj that can be used by acorn's ancestor walk
-  createWalkableRuleset(expressionChains) {
-    var newExpRules = {};
-    var categorized = categorizeChains(expressionChains);
+  verifyCustomRules(input) {
+    this.customRules.forEach(({fn, index}) => {
+      this.present[index] = !!fn(input);
+    });
+  },
 
-    Object.keys(categorized).forEach((exp) => {
-      // an array of {index, chain, required} objects
+  // returns an obj that can be used by acorn's ancestor walk
+  createWalkableRuleset(rules) {
+    var categorized = categorizeChains(rules);
+
+    return Object.keys(categorized).reduce((walkableRuleset, exp) => {
+      // an array of {index, chain} objects
       var rules = categorized[exp];
 
-      newExpRules[exp] = (node, state) => {
+      walkableRuleset[exp] = (node, state) => {
         // cycle through each rule chain when a node
         // of a given type is reached
-        rules.forEach((rule) => {
-          if (chainMatch(rule.chain, state)) {
-            this.present[rule.index] = true;
+        rules.forEach(({index, chain}) => {
+          if (chainMatch(chain, state)) {
+            this.present[index] = true;
           }
         });
-
       };
-    });
 
-    return newExpRules;
+      return walkableRuleset;
+    }, {});
   }
-
 });
 
 module.exports = codeStore;

@@ -3,7 +3,7 @@ var {React, createPureClass} = require('../util/createPureClass.js');
 var RuleList = require('./RuleList.jsx');
 var Editor = require('./Editor.jsx');
 
-var Challenge = createPureClass({
+var Challenge = React.createClass({
   propTypes: {
     title: React.PropTypes.string.isRequired,
     description: React.PropTypes.string.isRequired,
@@ -18,6 +18,7 @@ var Challenge = createPureClass({
   render() {
     // true if the `required` and `present` arrays match perfectly
     var isCorrect = this.props.required.every((x, i) => x === this.props.present[i]);
+    var valid = this.props.valid;
 
     return (
       <div>
@@ -31,13 +32,13 @@ var Challenge = createPureClass({
           dangerouslySetInnerHTML={{ __html: this.props.description }}
         />
         <RuleList
-          valid={this.props.valid}
+          valid={valid}
           expressionChains={this.props.expressionChains}
           required={this.props.required}
           present={this.props.present}
         />
         <Editor />
-        <button disabled={!isCorrect} onClick={this.success}>Submit</button>
+        <button disabled={!(valid && isCorrect)} onClick={this.success}>Submit</button>
       </div>
     );
   },
