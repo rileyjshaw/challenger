@@ -31,6 +31,10 @@ body {
   color: #0c7b5f;
   background: #1de9b6; }
 
+.blocked {
+  color: #757b96;
+  background: #ccced8; }
+
 .incomplete {
   color: #a92800;
   background: #ff7043; }
@@ -49,8 +53,8 @@ button {
   cursor: pointer;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24); }
   button[disabled] {
-    color: white;
-    background: #78909c;
+    color: #757b96;
+    background: #ccced8;
     cursor: default; }
 
 .fab {
