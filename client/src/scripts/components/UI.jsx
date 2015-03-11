@@ -20,7 +20,7 @@ var UI = createPureClass({
       title: '',
       description: '',
       valid: true,
-      expressionChains: [],
+      rules: [],
       required: [],
       present: []
     };
@@ -40,7 +40,7 @@ var UI = createPureClass({
         title={this.state.title}
         description={this.state.description}
         valid={this.state.valid}
-        expressionChains={this.state.expressionChains}
+        rules={this.state.rules}
         required={this.state.required}
         present={this.state.present}
       />

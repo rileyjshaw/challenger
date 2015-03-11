@@ -37,11 +37,11 @@ function parseChallenge (args) {
   var numRules = whitelist.length + blacklist.length +
                  nestedChains.length + customRules.length;
 
-  var rules = whitelist.map(value => ({type: 'expressionChain', value}))
-    // whitelist and blacklist have expression strings as values
-    .concat(blacklist.map(value => ({type: 'expressionChain', value})))
+  var rules = whitelist.map(exp => ({type: 'expressionChain', chain: [exp]}))
+    // white/blacklist have their expression strings wrapped in [] to match nestedChains
+    .concat(blacklist.map(exp => ({type: 'expressionChain', chain: [exp]})))
     // nested expression chains have arrays of expression strings as values
-    .concat(nestedChains.map(chain => ({type: 'expressionChain', value: chain.slice(1)})))
+    .concat(nestedChains.map(chain => ({type: 'expressionChain', chain: chain.slice(1)})))
     // custom rules have evaluation functions as values
     .concat(customRules.map(({description, fn}) => ({type: 'custom', description, fn})));
 

@@ -3,12 +3,12 @@ var {React, createPureClass} = require('../util/createPureClass.js');
 var RuleList = require('./RuleList.jsx');
 var Editor = require('./Editor.jsx');
 
-var Challenge = React.createClass({
+var Challenge = createPureClass({
   propTypes: {
     title: React.PropTypes.string.isRequired,
     description: React.PropTypes.string.isRequired,
     valid: React.PropTypes.bool.isRequired,
-    expressionChains: React.PropTypes.arrayOf(React.PropTypes.array).isRequired,
+    rules: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     required: React.PropTypes.arrayOf(React.PropTypes.bool).isRequired,
     present: React.PropTypes.arrayOf(React.PropTypes.bool).isRequired
   },
@@ -33,7 +33,7 @@ var Challenge = React.createClass({
         />
         <RuleList
           valid={valid}
-          expressionChains={this.props.expressionChains}
+          rules={this.props.rules}
           required={this.props.required}
           present={this.props.present}
         />

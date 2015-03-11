@@ -25,8 +25,8 @@ module.exports = {
   },
   customRules: [
     {
-      description: 'Must have the word \'poo\' in it.',
-      fn: function (code) { return code.indexOf('foobar') > -1;}
+      description: 'Program must have the word \'foobar\' in it.',
+      fn(code) { return code.indexOf('foobar') > -1; }
     }
   ]
 };

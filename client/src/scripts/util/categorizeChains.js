@@ -2,11 +2,7 @@
 // in an object according to their deepest-nested expression.
 //
 module.exports = function categorizeChains (rules) {
-  return rules.reduce((categorized, {value, index}) => {
-    // if an expression comes from the whitelist or blacklist
-    // it'll be a simple string
-    var chain = typeof value === 'string' ? [value] : value;
-
+  return rules.reduce((categorized, {chain, index}) => {
     // the deepest-nested expression, i.e. the one we're
     // looking for
     var exp = chain[0];
