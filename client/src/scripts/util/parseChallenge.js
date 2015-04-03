@@ -29,6 +29,7 @@ function parseChallenge (args) {
     blacklist = [],
     nestedRules = {},
     customRules = [],
+    output,
     initialText = ''
   } = args;
 
@@ -49,6 +50,13 @@ function parseChallenge (args) {
     .concat(blacklist.map(() => false))
     .concat(nestedChains.map(chain => chain[0]))
     .concat(customRules.map(() => true));
+
+  if (output) {
+    output.type = 'output';
+    rules.push(output);
+    required.push(true);
+    ++numRules;
+  }
 
   var present = fillArray(numRules, false);
 

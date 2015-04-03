@@ -54,7 +54,7 @@ gulp.task('css_concat', ['sass'], function () {
 });
 
 gulp.task('static', function () {
-  return gulp.src(paths.client.static.all)
+  return gulp.src(paths.client.static.all, { dot: true })
     .pipe(gulp.dest(paths.client.dist));
 });
 

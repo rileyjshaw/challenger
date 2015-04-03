@@ -14,16 +14,17 @@ var walkAST = require('acorn/util/walk').ancestor;
 var categorizeChains = require('../util/categorizeChains');
 var chainMatch = require('../util/chainMatch');
 var fillArray = require('../util/fillArray');
+var runCode = require('../util/runCode.js');
 
 var codeStore = Reflux.createStore({
   listenables: actions,
   init() {
     // stored values
-    this.code = '';
     this.present = [];
     this.customRules = [];
     this.nestedRules = [];
     this.walkableNestedRules = {};
+    this.output = undefined;
 
     // register ruleStore's changes
     this.listenTo(ruleStore, this.updateRuleset);
@@ -38,10 +39,11 @@ var codeStore = Reflux.createStore({
     });
 
     this.numRules = numRules;
+    this.present = fillArray(numRules, false);
     this.customRules = rules.filter(rule => rule.type === 'custom');
     this.nestedRules = rules.filter(rule => rule.type === 'expressionChain');
     this.walkableNestedRules = this.createWalkableRuleset(this.nestedRules);
-    // TODO: this.expectedOutput = ...
+    this.output = rules.filter(rule => rule.type === 'output')[0];
 
     this.onCodeEditOverride(initialText);
   },
@@ -52,21 +54,20 @@ var codeStore = Reflux.createStore({
   // updating it for the current input.
   onCodeEditUser(input) {
     // the following three methods have side effects on `this.present`
-    var codeIsValid = this.verifyNestedRules(input);
-    // TODO if (codeIsValid) this.validateOutput();
+    var valid = this.verifyNestedRules(input);
+    var checkingOutput = valid && this.output;
     this.verifyCustomRules(input);
 
-    this.code = input;
-    this.trigger({
-      // send a new object, since pureRenderMixin compares pointers
-      present: this.present.slice(),
-      valid: codeIsValid
-    });
+    if (checkingOutput) {
+      this.verifyOutput(input); // async, updates output rule
+    }
+
+    this.triggerPresent(valid, checkingOutput); // sync, updates structure & custom rules
   },
 
   // edits code and overwrites it in CodeMirror
   onCodeEditOverride(input) {
-    // this.code will be set on the resultant onCodeEditUser action
+    // state will be set on the resultant onCodeEditUser action
     this.trigger(input);
   },
 
@@ -76,7 +77,7 @@ var codeStore = Reflux.createStore({
 
     // `walkAST` sets this.present to true for matching rules
     try {
-      let ast = acorn.parse(input);
+      let ast = acorn.parse(input, { ecmaVersion: 6 });
       walkAST(ast, this.walkableNestedRules);
       return true;
     } catch (err) {
@@ -88,6 +89,16 @@ var codeStore = Reflux.createStore({
     this.customRules.forEach(({fn, index}) => {
       this.present[index] = !!fn(input);
     });
+  },
+
+  verifyOutput(input) {
+    var {fn, index} = this.output;
+
+    this.present[index] = false;
+    runCode(input, function verify (inPlugin, ...args) {
+      this.present[index] = inPlugin && !!fn(...args);
+      this.triggerPresent(true, false);
+    }.bind(this));
   },
 
   // returns an obj that can be used by acorn's ancestor walk
@@ -110,6 +121,15 @@ var codeStore = Reflux.createStore({
 
       return walkableRuleset;
     }, {});
+  },
+
+  triggerPresent(valid, checkingOutput) {
+    this.trigger({
+      // send a new object, since pureRenderMixin compares pointers
+      present: this.present.slice(),
+      valid: !!valid,
+      checkingOutput: !!checkingOutput
+    });
   }
 });
 

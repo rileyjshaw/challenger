@@ -20,6 +20,7 @@ var UI = createPureClass({
       title: '',
       description: '',
       valid: true,
+      checkingOutput: false,
       rules: [],
       required: [],
       present: []
@@ -40,6 +41,7 @@ var UI = createPureClass({
         title={this.state.title}
         description={this.state.description}
         valid={this.state.valid}
+        checkingOutput={this.state.checkingOutput}
         rules={this.state.rules}
         required={this.state.required}
         present={this.state.present}

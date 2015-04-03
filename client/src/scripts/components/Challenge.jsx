@@ -8,6 +8,7 @@ var Challenge = createPureClass({
     title: React.PropTypes.string.isRequired,
     description: React.PropTypes.string.isRequired,
     valid: React.PropTypes.bool.isRequired,
+    checkingOutput: React.PropTypes.bool.isRequired,
     rules: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     required: React.PropTypes.arrayOf(React.PropTypes.bool).isRequired,
     present: React.PropTypes.arrayOf(React.PropTypes.bool).isRequired
@@ -33,6 +34,7 @@ var Challenge = createPureClass({
         />
         <RuleList
           valid={valid}
+          checkingOutput={this.props.checkingOutput}
           rules={this.props.rules}
           required={this.props.required}
           present={this.props.present}

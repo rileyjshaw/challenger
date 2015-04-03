@@ -19,7 +19,7 @@ var paths = {
     },
     static: {
       dir: './client/src/static/',
-      all: './client/src/static/**/*',
+      all: ['./client/src/static/**/*', './node_modules/jailed/_*'],
     },
     temp: './client/temp/',
   },
