@@ -17,10 +17,11 @@ function runCode (code, verify) {
   // transform our code string from es6 to es5
   var es5 = babel.transform(code, { ast: false }).code;
 
-  // make our code plugin-ready by adding references to tunneled
-  // functions and wrapping it all in a try/catch block
+  // make our code plugin-ready by adding references to tunneled functions
+  // and wrapping it all in a try/catch block. \n wraps on `es5` string
+  // because babel can do wonky things with comments...
   var pluginCode = 'var verify = application.remote.verifyFromWithinPlugin;' +
-    'try {' + es5 + '} catch (e) {application.remote.err(e.message);}' +
+    'try {\n' + es5 + '\n} catch (e) {application.remote.err(e.message);}' +
     'application.disconnect();';
 
   // create and start the plugin
