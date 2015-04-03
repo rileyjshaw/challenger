@@ -1,0 +1,39 @@
+.spinner
+  position: absolute
+  top: 0
+  left: 0
+  display: none
+  height: 100%
+  width: 100%
+
+  .blocked &
+    display: block
+
+  svg
+    position: absolute
+    top: 50%
+    left: 50%
+    animation: rotate 2s linear infinite
+
+  circle
+    stroke: #fff
+    fill: none
+    animation: dash 1.5s ease-in-out infinite
+    stroke-linecap: round
+
+@keyframes rotate
+  100%
+    transform: rotate(360deg)
+
+@keyframes dash
+  0%
+    stroke-dasharray: 30%, 240%
+    stroke-dashoffset: 0
+
+  50%
+    stroke-dasharray: 240%, 30%
+    stroke-dashoffset: 0
+
+  100%
+    stroke-dasharray: 30%, 240%
+    stroke-dashoffset: -270%

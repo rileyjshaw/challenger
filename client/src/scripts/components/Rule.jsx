@@ -1,4 +1,5 @@
 var {React, createPureClass} = require('../util/createPureClass.js');
+var Spinner = require('./Spinner.jsx');
 
 var Rule = createPureClass({
   propTypes: {
@@ -9,7 +10,6 @@ var Rule = createPureClass({
   },
 
   render() {
-    // destructure this.props
     var { description, required, present, blocked } = this.props;
 
     var className = blocked ? 'blocked' :
@@ -18,6 +18,7 @@ var Rule = createPureClass({
     return (
       <li className={className}>
         <p>{description}.</p>
+        <Spinner radius={12} />
       </li>
     );
   },
