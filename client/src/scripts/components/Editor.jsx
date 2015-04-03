@@ -1,12 +1,17 @@
 var React = require('react');
 var CodeMirror = require('codemirror');
-require('codemirror/mode/javascript/javascript');
-require('codemirror/addon/lint/lint');
-require('codemirror/addon/lint/javascript-lint');
 
 var Reflux = require('reflux');
 var codeEditUser = require('../actions').codeEditUser;
 var codeStore = require('../stores/code');
+
+// set JSHINT as a global...
+window.JSHINT = require('jshint').JSHINT;
+
+// ...so codemirror can access it in the following addons:
+require('codemirror/mode/javascript/javascript');
+require('codemirror/addon/lint/lint');
+require('codemirror/addon/lint/javascript-lint');
 
 var Editor = React.createClass({
   mixins: [Reflux.listenTo(codeStore, 'onCodeStoreChange')],
@@ -17,7 +22,7 @@ var Editor = React.createClass({
       autofocus: true,
       gutters: ['CodeMirror-lint-markers'],
       lineNumbers: true,
-      lint: true,
+      lint: { esnext: true },
       mode: 'javascript',
       styleActiveLine: true,
       theme: 'neo'

@@ -11,11 +11,17 @@ var paths = {
       dir: './client/src/stylesheets/',
       entry: './client/src/stylesheets/main.sass',
       all: './client/src/stylesheets/**/*.sass',
+      plugins: [
+        './node_modules/codemirror/lib/codemirror.css',
+        './node_modules/codemirror/theme/neo.css',
+        './node_modules/codemirror/addon/lint/lint.css',
+      ],
     },
     static: {
       dir: './client/src/static/',
       all: './client/src/static/**/*',
     },
+    temp: './client/temp/',
   },
   server: {
     dir: './server/src/',

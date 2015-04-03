@@ -43,7 +43,14 @@ gulp.task('sass', function () {
     .pipe($.autoprefixer({
       browsers: ['ie >= 8', '> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1']
     }))
-    .pipe(gulp.dest(paths.client.dist));
+    .pipe(gulp.dest(paths.client.temp));
+});
+
+gulp.task('css_concat', ['sass'], function () {
+  return gulp.src(paths.client.stylesheets.plugins.concat(paths.client.temp + '*.css'))
+    .pipe($.concat('main.css'))
+    .pipe($.minifyCss())
+    .pipe(gulp.dest(paths.client.dist))
 });
 
 gulp.task('static', function () {
@@ -53,7 +60,7 @@ gulp.task('static', function () {
 
 gulp.task('watch', function () {
   gulp.watch([paths.client.scripts.all, paths.shared.scripts.all], [/*'lint', 'test',*/ 'scripts']);
-  gulp.watch([paths.client.stylesheets.all], ['sass']);
+  gulp.watch([paths.client.stylesheets.all], ['css_concat']);
   gulp.watch([paths.client.static.dir], ['static']);
 });
 
@@ -71,7 +78,7 @@ gulp.task('test', ['scripts'], function () {
     .pipe($.mocha({reporter: 'nyan'}));
 });
 
-gulp.task( 'build', ['scripts', 'sass', 'static']);
+gulp.task( 'build', ['scripts', 'css_concat', 'static']);
 gulp.task( 'default', [ 'build', 'watch', 'webserver' ] );
 
 gulp.task('deploy', ['build'], function () {
