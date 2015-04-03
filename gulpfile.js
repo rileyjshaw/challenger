@@ -82,6 +82,6 @@ gulp.task( 'build', ['scripts', 'css_concat', 'static']);
 gulp.task( 'default', [ 'build', 'watch', 'webserver' ] );
 
 gulp.task('deploy', ['build'], function () {
-  return gulp.src(paths.client.dist + '/**/*')
+  return gulp.src(paths.client.dist + '/**/*', { dot: true })
     .pipe($.ghPages('https://github.com/rileyjshaw/challenge-framework.git', 'origin'));
 });
