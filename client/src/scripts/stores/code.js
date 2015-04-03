@@ -95,8 +95,8 @@ var codeStore = Reflux.createStore({
     var {fn, index} = this.output;
 
     this.present[index] = false;
-    runCode(input, function verify (inPlugin, ...args) {
-      this.present[index] = inPlugin && !!fn(...args);
+    runCode(input, fn, function trigger (present) {
+      this.present[index] = present;
       this.triggerPresent(true, false);
     }.bind(this));
   },
