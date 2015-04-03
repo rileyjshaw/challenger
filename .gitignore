@@ -1,0 +1,11 @@
+# system / node
+.DS_Store
+node_modules
+
+# TODO
+server
+test
+
+# build directories
+dist
+temp
