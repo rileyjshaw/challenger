@@ -23,7 +23,7 @@ function chainTransform (obj, path = []) {
   });
 }
 
-function parseChallenge (args) {
+function parseChallenge (args, index) {
   var {
     whitelist = [],
     blacklist = [],
@@ -64,13 +64,14 @@ function parseChallenge (args) {
   var description = args.description || (numRules ? 'Meet all of the following requirements, then hit Submit to continue.' : 'There aren\'t any requirements in this level; just play around, and hit Submit when you\'re ready to continue.');
 
   return {
+    index,
     title,
     description,
     initialText,
     numRules,
     rules,
     required,
-    present
+    present,
   };
 }
 

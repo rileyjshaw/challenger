@@ -6,12 +6,17 @@ require('console-polyfill');
 var React = require('react');
 var UI = require('./components/UI.jsx');
 
-var challengeUpdate = require('./actions').challengeUpdate;
-var challenge = require('./challenges/1');
+var loadCourse = require('./actions').loadCourse;
 
-React.render(
-  <UI />,
-  document.getElementById('react-container')
-);
+function render (el) {
+  React.render(<UI />, el);
+}
 
-challengeUpdate(challenge);
+// TODO: Move these out into their own demo module
+render(document.getElementById('react-container'));
+loadCourse([require('./challenges/2'), require('./challenges/1')]);
+
+module.exports = {
+  render,
+  loadCourse,
+};

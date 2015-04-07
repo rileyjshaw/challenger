@@ -1,13 +1,14 @@
 // holds current user input and compares it with
-// a ruleset from ruleStore.
+// a ruleset from courseStore.
 //
 // reflux
 var Reflux = require('reflux');
 var actions = require('../actions');
-var ruleStore = require('./rules');
+var courseStore = require('./course');
 
 // acorn
 var acorn = require('acorn');
+// TODO update to 'acorn/dist/walk' for acorn v1.x.x
 var walkAST = require('acorn/util/walk').ancestor;
 
 // utils
@@ -16,18 +17,20 @@ var chainMatch = require('../util/chainMatch');
 var fillArray = require('../util/fillArray');
 var runCode = require('../util/runCode.js');
 
-var codeStore = Reflux.createStore({
+var challengeStore = Reflux.createStore({
   listenables: actions,
   init() {
     // stored values
+    this.numRules = 0;
+    this.initialText = '';
     this.present = [];
     this.customRules = [];
     this.nestedRules = [];
     this.walkableNestedRules = {};
     this.output = undefined;
 
-    // register ruleStore's changes
-    this.listenTo(ruleStore, this.updateRuleset);
+    // register courseStore's changes
+    this.listenTo(courseStore, this.updateRuleset);
   },
 
   updateRuleset({rules, numRules, initialText}) {
@@ -39,13 +42,12 @@ var codeStore = Reflux.createStore({
     });
 
     this.numRules = numRules;
+    this.initialText = initialText;
     this.present = fillArray(numRules, false);
     this.customRules = rules.filter(rule => rule.type === 'custom');
     this.nestedRules = rules.filter(rule => rule.type === 'expressionChain');
     this.walkableNestedRules = this.createWalkableRuleset(this.nestedRules);
     this.output = rules.filter(rule => rule.type === 'output')[0];
-
-    this.onCodeEditOverride(initialText);
   },
 
   // handle codeEditUser action, called from Editor.
@@ -68,7 +70,7 @@ var codeStore = Reflux.createStore({
   // edits code and overwrites it in CodeMirror
   onCodeEditOverride(input) {
     // state will be set on the resultant onCodeEditUser action
-    this.trigger(input);
+    this.trigger(input || this.initialText);
   },
 
   verifyNestedRules(input) {
@@ -133,4 +135,4 @@ var codeStore = Reflux.createStore({
   }
 });
 
-module.exports = codeStore;
+module.exports = challengeStore;

@@ -3,8 +3,11 @@ var {React, createPureClass} = require('../util/createPureClass.js');
 var RuleList = require('./RuleList.jsx');
 var Editor = require('./Editor.jsx');
 
+var challengeCompleted = require('../actions').challengeCompleted;
+
 var Challenge = createPureClass({
   propTypes: {
+    index: React.PropTypes.number.isRequired,
     title: React.PropTypes.string.isRequired,
     description: React.PropTypes.string.isRequired,
     valid: React.PropTypes.bool.isRequired,
@@ -14,7 +17,7 @@ var Challenge = createPureClass({
     present: React.PropTypes.arrayOf(React.PropTypes.bool).isRequired
   },
 
-  success: () => alert('You did it!'),
+  success: (code) => challengeCompleted(code), // TODO: need to pass code string to this function
 
   render() {
     // true if the `required` and `present` arrays match perfectly
@@ -22,7 +25,7 @@ var Challenge = createPureClass({
     var valid = this.props.valid;
 
     return (
-      <div>
+      <div className='challenge'>
         <h1
           // !!!
           dangerouslySetInnerHTML={{ __html: this.props.title }}

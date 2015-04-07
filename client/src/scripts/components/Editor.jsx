@@ -3,7 +3,8 @@ var CodeMirror = require('codemirror');
 
 var Reflux = require('reflux');
 var codeEditUser = require('../actions').codeEditUser;
-var codeStore = require('../stores/code');
+var codeEditOverride = require('../actions').codeEditOverride;
+var challengeStore = require('../stores/challenge');
 
 // set JSHINT as a global...
 window.JSHINT = require('jshint').JSHINT;
@@ -14,11 +15,11 @@ require('codemirror/addon/lint/lint');
 require('codemirror/addon/lint/javascript-lint');
 
 var Editor = React.createClass({
-  mixins: [Reflux.listenTo(codeStore, 'onCodeStoreChange')],
+  mixins: [Reflux.listenTo(challengeStore, 'onChallengeStoreChange')],
 
   componentDidMount() {
     // TODO: Invisible cursor in ie8
-    var cm = this.cm = CodeMirror.fromTextArea(this.getDOMNode(), {
+    var cm = CodeMirror.fromTextArea(this.getDOMNode(), {
       autofocus: true,
       gutters: ['CodeMirror-lint-markers'],
       lineNumbers: true,
@@ -27,21 +28,22 @@ var Editor = React.createClass({
       styleActiveLine: true,
       theme: 'neo'
     });
+    this.cm = cm;
 
     this.getText = cm.doc.getValue.bind(cm.doc);
     this.setText = cm.doc.setValue.bind(cm.doc);
     cm.on('change', this.onChange);
 
+    codeEditOverride();
     this.onChange();
   },
 
-  onCodeStoreChange(newText) {
-    var doc = this.cm.doc;
+  onChallengeStoreChange(newText) {
     if (typeof newText === 'string') {
       this.setText(newText);
 
       // set focus to the end of the second last line
-      doc.setCursor(doc.lineCount() - 2, 1000);
+      this.cm.doc.setCursor(this.cm.doc.lineCount() - 2, 1000);
     }
   },
 
