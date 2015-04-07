@@ -6,7 +6,6 @@ var ruleStore = require('../stores/rules');
 var codeStore = require('../stores/code');
 
 // components
-var ChallengeEditor = require('./ChallengeEditor.jsx');
 var Challenge = require('./Challenge.jsx');
 
 var UI = createPureClass({
