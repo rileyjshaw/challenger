@@ -83,5 +83,5 @@ gulp.task( 'default', [ 'build', 'watch', 'webserver' ] );
 
 gulp.task('deploy', ['build'], function () {
   return gulp.src(paths.client.dist + '/**/*', { dot: true })
-    .pipe($.ghPages('https://github.com/rileyjshaw/challenge-framework.git', 'origin'));
+    .pipe($.ghPages('https://github.com/rileyjshaw/challenger.git', 'origin'));
 });
