@@ -8,8 +8,7 @@ var courseStore = require('./course');
 
 // acorn
 var acorn = require('acorn');
-// TODO update to 'acorn/dist/walk' for acorn v1.x.x
-var walkAST = require('acorn/util/walk').ancestor;
+var walkAST = require('acorn/dist/walk').ancestor;
 
 // utils
 var categorizeChains = require('../util/categorizeChains');
