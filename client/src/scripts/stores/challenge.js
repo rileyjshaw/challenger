@@ -32,8 +32,9 @@ var challengeStore = Reflux.createStore({
     this.listenTo(courseStore, this.updateRuleset);
   },
 
-  updateRuleset({maxIndex, rules, numRules, initialText}) {
-    if (!maxIndex) {
+  updateRuleset({rules, numRules, initialText}) {
+    // course store also sends out a maxIndex trigger; only run on ruleset triggers
+    if (numRules) {
       // add `index` key to rule array to keep position reference
       // in filtered lists
       rules = rules.map((rule, i) => {
