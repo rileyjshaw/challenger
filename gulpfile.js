@@ -120,7 +120,7 @@ gulp.task( 'build', ['scripts', 'css_concat', 'static']);
 gulp.task( 'demo', ['demo_scripts', 'demo_sass', 'demo_static']);
 gulp.task( 'default', [ 'build', 'demo', 'watch', 'webserver' ] );
 
-gulp.task('deploy', ['build'], function () {
+gulp.task('deploy', ['build', 'demo'], function () {
   return gulp.src(paths.demo.dist + '/**/*', { dot: true })
     .pipe($.ghPages('https://github.com/rileyjshaw/challenger.git', 'origin'));
 });
