@@ -49,7 +49,7 @@ gulp.task('sass', function () {
 gulp.task('css_concat', ['sass'], function () {
   return gulp.src(paths.client.stylesheets.plugins.concat(paths.client.temp + '*.css'))
     .pipe($.concat('main.css'))
-    .pipe($.minifyCss())
+    .pipe($.if(PROD, $.minifyCss()))
     .pipe(gulp.dest(paths.client.dist))
 });
 

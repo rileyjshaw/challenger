@@ -1,4 +1,4 @@
-var {React, createPureClass} = require('../util/createPureClass.js');
+var {React, createPureClass} = require('../../util/createPureClass.js');
 
 var Spinner = createPureClass({
   propTypes: {

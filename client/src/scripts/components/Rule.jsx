@@ -1,5 +1,5 @@
 var {React, createPureClass} = require('../util/createPureClass.js');
-var Spinner = require('./Spinner.jsx');
+var Spinner = require('./icons/Spinner.jsx');
 
 var Rule = createPureClass({
   propTypes: {

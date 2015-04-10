@@ -1,0 +1,100 @@
+.challenge
+  position: absolute
+  top: 50%
+  left: 50%
+  width: 90%
+  max-width: 1280px
+  background: #fff
+  transform: translate(-50%, -50%)
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12)
+
+  h1
+    height: 60px
+    line-height: 60px
+    margin: 0
+    padding: 0 60px 0 30px
+    color: #e8cfff
+    background: #664dab
+
+    small
+      margin-right: 18px
+      font-size: 0.5em
+
+.challenge-frame
+  padding: 18px 30px
+
+.challenge-content
+  position: relative
+  margin-bottom: 18px
+
+  & > *
+    width: 48%
+
+.description
+  margin-top: 0
+  font-size: 22px
+  line-height: 1.46em
+
+  code
+    padding: 0 0.2em
+
+.rules
+  position: absolute
+  right: 0
+  bottom: 0
+  max-height: 100%
+  overflow-y: auto
+  margin: 0
+  padding: 0
+  list-style: none
+
+  li
+    position: relative
+    margin-bottom: 12px
+    padding: 1.6em 1em
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12)
+
+    p
+      margin: 0
+
+    &:last-child
+      margin-bottom: 0
+
+code, .CodeMirror
+  font-family: $fmono
+
+.CodeMirror
+  box-sizing: border-box
+  border: 1px solid $ctext
+
+.unmount
+  $size: 36px
+  position: absolute
+  top: (60px - $size) / 2
+  right: (60px - $size) / 2
+  height: $size
+  width: $size
+  padding: 0
+  border: 0
+  background: none
+  cursor: pointer
+
+  &:hover
+    line
+      stroke: #fff !important
+
+.submit
+  height: 48px
+  width: 100%
+  padding: 0.6em 1em
+  border: 0
+  border-radius: 0
+  color: $csuccess-dark
+  background: $csuccess
+  cursor: pointer
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24)
+
+  &[disabled]
+    color: $cdisabled-dark
+    background: $cdisabled
+    cursor: default

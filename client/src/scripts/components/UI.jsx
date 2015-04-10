@@ -18,6 +18,7 @@ var UI = createPureClass({
   getInitialState() {
     return {
       index: -1,
+      maxIndex: -1,
       title: '',
       description: '',
       valid: true,
@@ -37,27 +38,36 @@ var UI = createPureClass({
   },
 
   render() {
-    var index = this.state.index;
+    var {
+      index,
+      maxIndex,
+      title,
+      description,
+      valid,
+      checkingOutput,
+      rules,
+      required,
+      present
+    } = this.state;
 
     return (
       <ReactCSSTransitionGroup
         transitionName='challenge'
         component='div'
-        // TODO
-        transitionAppear={false}
-        transitionEnter={false}
-        transitionLeave={false} >
+        className='challenge-outer' >
         {index === -1 ? '' :
           <Challenge
             key={index}
             index={index}
-            title={this.state.title}
-            description={this.state.description}
-            valid={this.state.valid}
-            checkingOutput={this.state.checkingOutput}
-            rules={this.state.rules}
-            required={this.state.required}
-            present={this.state.present}
+            maxIndex={maxIndex}
+            title={title}
+            description={description}
+            valid={valid}
+            checkingOutput={checkingOutput}
+            rules={rules}
+            required={required}
+            present={present}
+            unmount={this.props.unmount}
           />
         }
       </ReactCSSTransitionGroup>

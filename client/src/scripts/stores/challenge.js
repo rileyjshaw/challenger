@@ -32,21 +32,23 @@ var challengeStore = Reflux.createStore({
     this.listenTo(courseStore, this.updateRuleset);
   },
 
-  updateRuleset({rules, numRules, initialText}) {
-    // add `index` key to rule array to keep position reference
-    // in filtered lists
-    rules = rules.map((rule, i) => {
-      rule.index = i;
-      return rule;
-    });
+  updateRuleset({maxIndex, rules, numRules, initialText}) {
+    if (!maxIndex) {
+      // add `index` key to rule array to keep position reference
+      // in filtered lists
+      rules = rules.map((rule, i) => {
+        rule.index = i;
+        return rule;
+      });
 
-    this.numRules = numRules;
-    this.initialText = initialText;
-    this.present = fillArray(numRules, false);
-    this.customRules = rules.filter(rule => rule.type === 'custom');
-    this.nestedRules = rules.filter(rule => rule.type === 'expressionChain');
-    this.walkableNestedRules = this.createWalkableRuleset(this.nestedRules);
-    this.output = rules.filter(rule => rule.type === 'output')[0];
+      this.numRules = numRules;
+      this.initialText = initialText;
+      this.present = fillArray(numRules, false);
+      this.customRules = rules.filter(rule => rule.type === 'custom');
+      this.nestedRules = rules.filter(rule => rule.type === 'expressionChain');
+      this.walkableNestedRules = this.createWalkableRuleset(this.nestedRules);
+      this.output = rules.filter(rule => rule.type === 'output')[0];
+    }
   },
 
   // handle codeEditUser action, called from Editor.

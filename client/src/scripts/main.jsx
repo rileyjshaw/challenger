@@ -5,18 +5,24 @@ require('console-polyfill');
 
 var React = require('react');
 var UI = require('./components/UI.jsx');
-
 var loadCourse = require('./actions').loadCourse;
 
-function render (el) {
-  React.render(<UI />, el);
+function challenger (course, parent = document.body) {
+  function unmount () {
+    React.unmountComponentAtNode(container);
+    parent.removeChild(container);
+  }
+
+  var container = document.createElement('div');
+  container.className = 'challenger';
+  parent.appendChild(container);
+
+  React.render(<UI unmount={unmount} />, container);
+  loadCourse(course);
 }
 
 // TODO: Move these out into their own demo module
-render(document.getElementById('react-container'));
-loadCourse([require('./challenges/2'), require('./challenges/1')]);
+var course = [require('./challenges/1'), require('./challenges/2')];
+challenger(course);
 
-module.exports = {
-  render,
-  loadCourse,
-};
+module.exports = challenger;

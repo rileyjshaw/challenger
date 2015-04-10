@@ -18,9 +18,10 @@ var courseStore = Reflux.createStore({
 
   onLoadCourse(newCourse) {
     if (!Array.isArray(newCourse)) newCourse = [newCourse];
-
     this.course = newCourse.map(parseChallenge);
     this.challenge = 0;
+
+    this.trigger({ maxIndex: newCourse.length - 1 });
     this.updateChallenge(this.challenge);
   },
 
