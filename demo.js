@@ -1,10 +1,17 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
-var course = [require("./challenges/1"), require("./challenges/2")];
-challenger(course);
+var single = require("./challenges/1");
+var series = [require("./challenges/2"), require("./challenges/3"), require("./challenges/4")];
 
-},{"./challenges/1":2,"./challenges/2":3}],2:[function(require,module,exports){
+document.getElementById("single").addEventListener("click", function () {
+  return challenger(single);
+}, false);
+document.getElementById("series").addEventListener("click", function () {
+  return challenger(series);
+}, false);
+
+},{"./challenges/1":2,"./challenges/2":3,"./challenges/3":4,"./challenges/4":5}],2:[function(require,module,exports){
 "use strict";
 
 var initialText = "var array = ['Donde', 'Esta', 'La', 'Biblioteca'];\n\nvar i = 0;\nwhile (i < array.length) {\n  if (i % 2 === 0) {\n    // we're on an even index\n  }\n\n  i++;\n}\n\nverify();\n";
@@ -69,6 +76,68 @@ module.exports = {
         return nums.length === 0;
       };
     })()
+  }
+};
+
+},{}],4:[function(require,module,exports){
+"use strict";
+
+var initialText = "var array = ['Donde', 'Esta', 'La', 'Biblioteca'];\n\nvar i = 0;\nwhile (i < array.length) {\n  if (i % 2 === 0) {\n    // we're on an even index\n  }\n\n  i++;\n}\n\nverify();\n";
+
+module.exports = {
+  title: "for( ) the love of loops",
+  description: "Now that we've covered the <code>while</code> loop, it's time to take a look at its twin sister: the <code>for</code> loop. Iterate through the array using a <code>for</code> loop, and log the content for all <em>even</em> indices.",
+  initialText: initialText,
+  blacklist: ["WhileStatement"],
+  nestedRules: {
+    ForStatement: {
+      IfStatement: {
+        required: true
+      }
+    }
+  },
+  customRules: [{
+    description: "Program must have the word 'foobar' in it",
+    fn: function fn(code) {
+      return code.indexOf("foobar") > -1;
+    }
+  }],
+  output: {
+    description: "Program must pass the string \"winner!\" into the verify function",
+    fn: function (str) {
+      return str === "winner!";
+    }
+  }
+};
+
+},{}],5:[function(require,module,exports){
+"use strict";
+
+var initialText = "var array = ['Donde', 'Esta', 'La', 'Biblioteca'];\n\nvar i = 0;\nwhile (i < array.length) {\n  if (i % 2 === 0) {\n    // we're on an even index\n  }\n\n  i++;\n}\n\nverify();\n";
+
+module.exports = {
+  title: "for( ) the love of loops",
+  description: "Now that we've covered the <code>while</code> loop, it's time to take a look at its twin sister: the <code>for</code> loop. Iterate through the array using a <code>for</code> loop, and log the content for all <em>even</em> indices.",
+  initialText: initialText,
+  blacklist: ["WhileStatement"],
+  nestedRules: {
+    ForStatement: {
+      IfStatement: {
+        required: true
+      }
+    }
+  },
+  customRules: [{
+    description: "Program must have the word 'foobar' in it",
+    fn: function fn(code) {
+      return code.indexOf("foobar") > -1;
+    }
+  }],
+  output: {
+    description: "Program must pass the string \"winner!\" into the verify function",
+    fn: function (str) {
+      return str === "winner!";
+    }
   }
 };
 

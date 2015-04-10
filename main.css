@@ -1,2 +1,81 @@
 body {
-  background: red; }
+  margin: 0; }
+
+.challenger-demo, .challenger-demo button {
+  font-family: Lato, Helvetica, 'Helvetica Neue', Arial, sans-serif;
+  color: #333; }
+.challenger-demo header {
+  margin-bottom: 84px;
+  overflow: hidden;
+  text-align: center;
+  background: #ffb300; }
+  .challenger-demo header, .challenger-demo header button {
+    color: #fff; }
+.challenger-demo h1 {
+  font-size: 60px; }
+.challenger-demo p {
+  font-size: 24px; }
+.challenger-demo button {
+  margin: 7em 8em 8em;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  cursor: pointer; }
+.challenger-demo nav {
+  background: #f37046; }
+  .challenger-demo nav ul {
+    height: 96px;
+    line-height: 96px;
+    margin: 0 16%;
+    padding: 0;
+    list-style: none;
+    text-align: justify; }
+    .challenger-demo nav ul:after {
+      content: '';
+      display: inline-block;
+      width: 100%; }
+  .challenger-demo nav li {
+    position: relative;
+    display: inline-block;
+    text-transform: uppercase; }
+  .challenger-demo nav a {
+    font-size: 30px;
+    text-decoration: none;
+    color: #fff; }
+    .challenger-demo nav a::before, .challenger-demo nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 28px;
+      height: 3px;
+      width: 0px;
+      background: #fff;
+      -webkit-transition: width 0.4s;
+              transition: width 0.4s; }
+    .challenger-demo nav a::before {
+      left: 50%; }
+    .challenger-demo nav a::after {
+      right: 50%; }
+    .challenger-demo nav a:hover::before, .challenger-demo nav a:hover::after {
+      width: 50%; }
+.challenger-demo h2 {
+  margin: 1em 0;
+  font-size: 48px;
+  text-align: center; }
+.challenger-demo .section {
+  width: 76%;
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: justify;
+  -webkit-column-count: 2;
+     -moz-column-count: 2;
+          column-count: 2;
+  -webkit-column-width: 320px;
+     -moz-column-width: 320px;
+          column-width: 320px;
+  -webkit-column-gap: 96px;
+     -moz-column-gap: 96px;
+          column-gap: 96px; }
+  .challenger-demo .section p {
+    max-width: 420px;
+    margin: 0 auto 1em; }
