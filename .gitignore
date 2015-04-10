@@ -7,6 +7,6 @@ server
 test
 
 # build directories
-dist
+demo
 temp
 .publish

@@ -21,8 +21,4 @@ function challenger (course, parent = document.body) {
   loadCourse(course);
 }
 
-// TODO: Move these out into their own demo module
-var course = [require('./challenges/1'), require('./challenges/2')];
-challenger(course);
-
 module.exports = challenger;

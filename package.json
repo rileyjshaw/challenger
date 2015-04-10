@@ -2,7 +2,7 @@
   "name": "challenger",
   "version": "0.0.0",
   "description": "Analyze student-generated JS and determine if certain aspects are written as expected",
-  "main": "dist/client/index.html",
+  "main": "client/dist/challenger.min.js",
   "scripts": {
     "test": "mocha"
   },
@@ -46,9 +46,9 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "bugs": {
-    "url": "https://github.com/rileyjshaw/challenge-framework/issues"
+    "url": "https://github.com/rileyjshaw/challenger/issues"
   },
-  "homepage": "https://github.com/rileyjshaw/challenge-framework",
+  "homepage": "https://github.com/rileyjshaw/challenger",
   "dependencies": {
     "acorn": "^1.0.3",
     "babel": "^5.0.12",

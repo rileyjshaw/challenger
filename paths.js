@@ -18,10 +18,27 @@ var paths = {
       ],
     },
     static: {
-      dir: './client/src/static/',
-      all: ['./client/src/static/**/*', './node_modules/jailed/_*'],
+      all: ['./node_modules/jailed/_*'],
     },
     temp: './client/temp/',
+  },
+  demo: {
+    dir: './demo/src/',
+    dist: './demo/dist/',
+    scripts: {
+      dir: './demo/src/scripts/',
+      entry: './demo/src/scripts/main.js',
+      all: './demo/src/scripts/**/*.js',
+    },
+    stylesheets: {
+      dir: './demo/src/stylesheets/',
+      entry: './demo/src/stylesheets/main.sass',
+      all: './demo/src/stylesheets/**/*.sass',
+    },
+    static: {
+      dir: './demo/src/static/',
+      all: ['./demo/src/static/**/*', './node_modules/jailed/_*'],
+    },
   },
   server: {
     dir: './server/src/',
