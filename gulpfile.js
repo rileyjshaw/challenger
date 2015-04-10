@@ -77,7 +77,7 @@ gulp.task('demo_sass', function () {
 });
 
 gulp.task('css_concat', ['sass'], function () {
-  return gulp.src(paths.client.stylesheets.plugins.concat(paths.client.temp + '*.css'))
+  return gulp.src([paths.client.temp + '*.css'].concat(paths.client.stylesheets.plugins))
     .pipe($.concat('challenger.min.css'))
     .pipe($.if(PROD, $.minifyCss()))
     .pipe(gulp.dest(paths.client.dist))
