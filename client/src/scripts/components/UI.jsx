@@ -37,6 +37,10 @@ var UI = createPureClass({
     }
   },
 
+  handleKeyDown(e){
+    if (e.which === 27) this.props.unmount();
+  },
+
   render() {
     var {
       index,
@@ -52,6 +56,7 @@ var UI = createPureClass({
 
     return (
       <ReactCSSTransitionGroup
+        onKeyDown={this.handleKeyDown}
         transitionName='challenge'
         component='div'
         className='challenge-outer' >
