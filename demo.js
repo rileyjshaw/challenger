@@ -4,22 +4,57 @@
 var single = require("./challenges/1");
 var series = [require("./challenges/2"), require("./challenges/3"), require("./challenges/4")];
 
-document.getElementById("single").addEventListener("click", function () {
+var sticky = false;
+var squished = false;
+var stickyBoundary, squishedBoundary;
+
+var body = document.body;
+var singleBtn = document.getElementById("single");
+var seriesBtn = document.getElementById("series");
+
+function checkScroll(event) {
+  var scrollTop = document.body.scrollTop;
+
+  if (scrollTop >= stickyBoundary !== sticky) {
+    sticky = !sticky;
+    body.className = sticky ? "sticky" : "";
+  } else if (scrollTop >= squishedBoundary !== squished) {
+    squished = !squished;
+    body.className = squished ? "sticky squished" : sticky ? "sticky" : "";
+  }
+}
+
+function updateSizes() {
+  var innerHeight = window.innerHeight;
+
+  stickyBoundary = innerHeight - 96;
+  squishedBoundary = innerHeight + 96;
+
+  checkScroll();
+}
+
+updateSizes();
+window.addEventListener("resize", updateSizes);
+document.addEventListener("scroll", checkScroll);
+
+singleBtn.addEventListener("click", function () {
   return challenger(single);
 }, false);
-document.getElementById("series").addEventListener("click", function () {
+seriesBtn.addEventListener("click", function () {
   return challenger(series);
 }, false);
+
+hljs.initHighlightingOnLoad();
 
 },{"./challenges/1":2,"./challenges/2":3,"./challenges/3":4,"./challenges/4":5}],2:[function(require,module,exports){
 "use strict";
 
-var initialText = "var array = ['Donde', 'Esta', 'La', 'Biblioteca'];\n\nvar i = 0;\nwhile (i < array.length) {\n  if (i % 2 === 0) {\n    // we're on an even index\n  }\n\n  i++;\n}\n\nverify();\n";
+var initialCode = "var array = ['Donde', 'Esta', 'La', 'Biblioteca'];\n\nvar i = 0;\nwhile (i < array.length) {\n  if (i % 2 === 0) {\n    // we're on an even index\n  }\n\n  i++;\n}\n\nverify();\n";
 
 module.exports = {
   title: "for( ) the love of loops",
   description: "Now that we've covered the <code>while</code> loop, it's time to take a look at its twin sister: the <code>for</code> loop. Iterate through the array using a <code>for</code> loop, and log the content for all <em>even</em> indices.",
-  initialText: initialText,
+  initialCode: initialCode,
   blacklist: ["WhileStatement"],
   nestedRules: {
     ForStatement: {
@@ -45,12 +80,12 @@ module.exports = {
 },{}],3:[function(require,module,exports){
 "use strict";
 
-var initialText = "[0,1,2,3,4,5].map(verify);\nn => this;\n";
+var initialCode = "[0,1,2,3,4,5].map(verify);\nn => this;\n";
 
 module.exports = {
   title: "Arrow functions",
   description: "Arrow functions let you define functions with a shorter syntax than standard <code>function</code> expressions. They also lexically bind the <code>this</code> value, so you don't need to <code>.bind(this)</code> as frequently!",
-  initialText: initialText,
+  initialCode: initialCode,
   whitelist: ["ArrowFunctionExpression"],
   blacklist: ["FunctionExpression"],
   nestedRules: {
@@ -82,12 +117,12 @@ module.exports = {
 },{}],4:[function(require,module,exports){
 "use strict";
 
-var initialText = "var array = ['Donde', 'Esta', 'La', 'Biblioteca'];\n\nvar i = 0;\nwhile (i < array.length) {\n  if (i % 2 === 0) {\n    // we're on an even index\n  }\n\n  i++;\n}\n\nverify();\n";
+var initialCode = "var array = ['Donde', 'Esta', 'La', 'Biblioteca'];\n\nvar i = 0;\nwhile (i < array.length) {\n  if (i % 2 === 0) {\n    // we're on an even index\n  }\n\n  i++;\n}\n\nverify();\n";
 
 module.exports = {
   title: "for( ) the love of loops",
   description: "Now that we've covered the <code>while</code> loop, it's time to take a look at its twin sister: the <code>for</code> loop. Iterate through the array using a <code>for</code> loop, and log the content for all <em>even</em> indices.",
-  initialText: initialText,
+  initialCode: initialCode,
   blacklist: ["WhileStatement"],
   nestedRules: {
     ForStatement: {
@@ -113,12 +148,12 @@ module.exports = {
 },{}],5:[function(require,module,exports){
 "use strict";
 
-var initialText = "var array = ['Donde', 'Esta', 'La', 'Biblioteca'];\n\nvar i = 0;\nwhile (i < array.length) {\n  if (i % 2 === 0) {\n    // we're on an even index\n  }\n\n  i++;\n}\n\nverify();\n";
+var initialCode = "var array = ['Donde', 'Esta', 'La', 'Biblioteca'];\n\nvar i = 0;\nwhile (i < array.length) {\n  if (i % 2 === 0) {\n    // we're on an even index\n  }\n\n  i++;\n}\n\nverify();\n";
 
 module.exports = {
   title: "for( ) the love of loops",
   description: "Now that we've covered the <code>while</code> loop, it's time to take a look at its twin sister: the <code>for</code> loop. Iterate through the array using a <code>for</code> loop, and log the content for all <em>even</em> indices.",
-  initialText: initialText,
+  initialCode: initialCode,
   blacklist: ["WhileStatement"],
   nestedRules: {
     ForStatement: {

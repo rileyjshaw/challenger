@@ -4,53 +4,142 @@
   <meta charset="UTF-8">
   <title>Challenger.js</title>
   <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/tomorrow-night-eighties.min.css">
   <link rel="stylesheet" href="challenger.min.css">
+  <link rel="stylesheet" href="main.css">
 </head>
 <body>
   <div class="challenger-demo">
+    <div class="space-filler"></div>
     <header>
       <h1>Challenger.js</h1>
       <p>Pop-up JavaScript challenges in your browser</p>
-      <button id="single">
-        <img src="single.svg" alt="single">
-        <p>Try a single challenge</p>
-      </button>
-      <button id="series">
-        <img src="series.svg" alt="series">
-        <p>Try a series of challenges</p>
-      </button>
+      <ul class="demos">
+        <li class="try">
+          <p><span class="small">Try these</span>demos:</p>
+        </li>
+        <li>
+          <button id="single">
+            <img src="single.svg" height="144" width="144" alt="single">
+            <p>Try a single challenge</p>
+          </button>
+        </li>
+        <li>
+          <button id="series">
+            <img src="series.svg" height="144" width="144" alt="series">
+            <p>Try a series of challenges</p>
+          </button>
+        </li>
+      </ul>
       <nav>
         <ul>
           <li><a href="#about">About</a></li>
-          <li><a href="#install">Install</a></li>
           <li><a href="#usage">Usage</a></li>
+          <li><a href="#install">Install</a></li>
           <li><a href="https://github.com/rileyjshaw/challenger">GitHub</a></li>
         </ul>
       </nav>
     </header>
 
     <div id="about" class="section">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum, accusamus eligendi ipsum sapiente aliquam quaerat corporis, voluptatem magni dolore voluptates, est saepe ad neque dolores dicta ducimus dolor. Voluptatibus, numquam.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum, accusamus eligendi ipsum sapiente aliquam quaerat corporis, voluptatem magni dolore voluptates, est saepe ad neque dolores dicta ducimus dolor. Voluptatibus, numquam.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum, accusamus eligendi ipsum sapiente aliquam quaerat corporis, voluptatem magni dolore voluptates, est saepe ad neque dolores dicta ducimus dolor. Voluptatibus, numquam.</p>
-    </div>
-
-    <h2 id="install">Install</h2>
-    <div class="section">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum, accusamus eligendi ipsum sapiente aliquam quaerat corporis, voluptatem magni dolore voluptates, est saepe ad neque dolores dicta ducimus dolor. Voluptatibus, numquam.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum, accusamus eligendi ipsum sapiente aliquam quaerat corporis, voluptatem magni dolore voluptates, est saepe ad neque dolores dicta ducimus dolor. Voluptatibus, numquam.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum, accusamus eligendi ipsum sapiente aliquam quaerat corporis, voluptatem magni dolore voluptates, est saepe ad neque dolores dicta ducimus dolor. Voluptatibus, numquam.</p>
+      <p>Challenger is a drop-in JavaScript library that can add interactive programming challenges to any page. Challenges are flexible and expressive, and are <strong>super simple</strong> to write.</p>
+      <p>A challenge defines requirements based on <strong>code structure</strong> and <strong>program output</strong>, and gives users a code editor to experiment in. When new code is written, it's run in a sandbox and the output is analyzed.</p>
+      <p>Challenges can be presented as one-off tests or linked together to form courses.</p>
     </div>
 
     <h2 id="usage">Usage</h2>
     <div class="section">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum, accusamus eligendi ipsum sapiente aliquam quaerat corporis, voluptatem magni dolore voluptates, est saepe ad neque dolores dicta ducimus dolor. Voluptatibus, numquam.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum, accusamus eligendi ipsum sapiente aliquam quaerat corporis, voluptatem magni dolore voluptates, est saepe ad neque dolores dicta ducimus dolor. Voluptatibus, numquam.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum, accusamus eligendi ipsum sapiente aliquam quaerat corporis, voluptatem magni dolore voluptates, est saepe ad neque dolores dicta ducimus dolor. Voluptatibus, numquam.</p>
+      <p>Challenges are defined as simple JavaScript objects. The following optional keys can be set:</p>
+      <ul>
+        <li><p><code class="language-js">title</code>— the challenge's title</p></li>
+        <li><p><code class="language-js">description</code>— a short description of the challenge</p></li>
+        <li><p><code class="language-js">initialCode</code>— text to be loaded into the code editor on initialization</p></li>
+        <li><p><code class="language-js">whitelist</code>— an array of <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Parser_API">ParserAPI</a> strings, indicating expressions that <strong>must</strong> exist in the student's code</p></li>
+        <li><p><code class="language-js">blacklist</code>— same as whitelist, but these expressions <strong>must not</strong> exist in the student's code</p></li>
+        <li><p><code class="language-js">nestedRules</code>— an object indicating nested requirements. Naming conventions are consistent with the <code class="language-js">whitelist</code> and <code class="language-js">blacklist</code>, but each expression key can take another nested object as its value. Setting the <code class="language-js">required</code> attribute on an expression indicates whether the expression is required or disallowed. For example:</p>
+          <pre><code class="language-js">// indicates that the student must include an if statement within a while
+// statement in their code, but must not include a for statement within a
+// while statement.
+var challenge = {
+  // ...
+  nestedRules: {
+  structure: {
+    WhileStatement: {
+      IfStatement: {
+        required: true
+      },
+      ForStatement: {
+        required: false
+      }
+    }
+  }
+};</code></pre>
+        </li>
+        <li><p><code class="language-js">customRules</code>— an array of objects. Each object must have a <code class="language-js">fn</code> key set to a function which takes the current user input as a string and returns a boolean dependent on if the rule is satisfied. Each object must also have a <code class="language-js">description</code> key to describe the rule. For example:</p>
+          <pre><code class="language-js">var challenge = {
+  // ...
+  customRules: [
+    {
+      description: 'Program must have the word \'foobar\' in it',
+      fn: function (str) { return str.indexOf('foobar') > -1; }
+    },
+    {
+      description: 'Program must be under 140 characters',
+      fn: function (str) { return str.length < 140; }
+    }
+  ]
+};</code></pre>
+        </li>
+        <li><p><code class="language-js">output</code>— an object with a <code class="language-js">fn</code> key that will be aliased to the <code class="language-js">verify</code> function in the challenge, and a <code class="language-js">description</code> key describing the function. For example:</p>
+          <pre><code class="language-js">var challenge = {
+  // ...
+  output: {
+    description: 'Program must pass the string "winner!" into the verify function',
+    fn: (str) => str === 'winner!'
+  }
+};</code></pre></li>
+      </ul>
+      <p>To load a single challenge, pass its object into the <code class="language-js">challenger</code> function:</p>
+      <pre><code class="language-js">var challenger = require('challenger');
+
+var newChallenge = {
+  title: 'My new challenge',
+  description: 'It\'s all about the Pentiums.',
+  whitelist: ['DoWhileStatement']
+};
+
+challenger.loadCourse(newChallenge);</code></pre>
+
+      <p>To create a course out of multiple challenges in sequence, pass an array of challenges into the <code class="language-js">challenger</code> function:</p>
+      <pre><code class="language-js">// ...
+challenger.loadCourse([challenge1, challenge2, challenge3/*, ... */]);</code></pre>
+
+      <p>The <code class="language-js">challenger</code> function inserts a challenge node into <code class="language-js">document.body</code> by default. To override this and specify a parent container, pass a DOM Node as the second argument to <code class="language-js">challenger</code>.</p>
     </div>
 
+    <h2 id="install">Installation</h2>
+    <div class="section">
+      <p>To install the library, use <a href="https://www.npmjs.com/package/challenger">npm</a> or <a href="http://bower.io/">bower</a>:</p>
+      <pre><code class="language-bash">bower install challenger # or...
+npm install challenger</code></pre>
+      <p>The source is also on <a href="https://github.com/rileyjshaw/challenger">GitHub</a>.</p>
+      <p>All necessary files exist within the <code>/client/dist/</code> directory:</p>
+      <ul>
+        <li><p><code>challenger.min.js</code>— the main library file.</p></li>
+        <li><p><code>challenger.min.css</code>— the base stylesheet. Even if you plan on restyling the challenges, it's recommended that you include this; it will give the challenges some initial structure to work with.</p></li>
+        <li><p><code>_*.*</code>— helper modules for sandboxing. <strong>These must be in the same folder as challenger.min.js if you have any <code>output</code> rules!</strong></p></li>
+      </ul>
+      <p>Sadly, a simple call to <code class="language-js">require('challenger')</code> <strong>won't work</strong> without also copying the <code>_*.*</code> files to the same folder as your script. This is because Challenger runs all client code in a sandboxed iframe, so certain modules need to be broken out and re-loaded into the sandboxes. For more information on how sandboxing is implemented, check out <a href="https://github.com/asvd/jailed" target="_blank">jailed</a>.</p>
+    </div>
+
+    <footer>
+      <p><a href="http://rileyjshaw.com">rileyjshaw</a></p>
+      <p>MIT · 2015</p>
+      <p>...that's all, folks!</p>
+    </footer>
+
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
   <script src="challenger.min.js"></script>
   <script src="demo.js"></script>
 </body>
