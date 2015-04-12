@@ -8,7 +8,7 @@ Challenges are simple JavaScript objects with the following optional keys:
 
  - `title`: Title of the challenge
  - `description`: A short description of the challenge
- - `initialText`: Text to be loaded into the code editor on initialization
+ - `initialCode`: Text to be loaded into the code editor on initialization
  - `whitelist`: An array of [ParserAPI](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Parser_API) strings, indicating expressions that **must** exist in the student's code
  - `blacklist`: Same as `whitelist`, but these expressions **must not** exist in the student's code
  - `nestedRules`: An object indicating nested requirements. Naming conventions are consistent with the `whitelist` and `blacklist`, but each expression key can take another nested object as its value. Setting the `required` attribute on an expression indicates whether the expression is required or disallowed. For example:

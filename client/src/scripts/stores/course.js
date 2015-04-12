@@ -26,7 +26,7 @@ var courseStore = Reflux.createStore({
   },
 
   onChallengeCompleted(code) {
-    this.course[this.challenge].initialText = code;
+    this.course[this.challenge].initialCode = code;
 
     this.updateChallenge(++this.challenge);
   },

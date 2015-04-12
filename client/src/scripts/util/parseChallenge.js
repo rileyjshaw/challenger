@@ -30,7 +30,7 @@ function parseChallenge (args, index) {
     nestedRules = {},
     customRules = [],
     output,
-    initialText = ''
+    initialCode = ''
   } = args;
 
   var nestedChains = chainTransform(nestedRules);
@@ -67,7 +67,7 @@ function parseChallenge (args, index) {
     index,
     title,
     description,
-    initialText,
+    initialCode,
     numRules,
     rules,
     required,

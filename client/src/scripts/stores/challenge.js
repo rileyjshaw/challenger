@@ -21,7 +21,7 @@ var challengeStore = Reflux.createStore({
   init() {
     // stored values
     this.numRules = 0;
-    this.initialText = '';
+    this.initialCode = '';
     this.present = [];
     this.customRules = [];
     this.nestedRules = [];
@@ -32,7 +32,7 @@ var challengeStore = Reflux.createStore({
     this.listenTo(courseStore, this.updateRuleset);
   },
 
-  updateRuleset({rules, numRules, initialText}) {
+  updateRuleset({rules, numRules, initialCode}) {
     // course store also sends out a maxIndex trigger; only run on ruleset triggers
     if (numRules) {
       // add `index` key to rule array to keep position reference
@@ -43,7 +43,7 @@ var challengeStore = Reflux.createStore({
       });
 
       this.numRules = numRules;
-      this.initialText = initialText;
+      this.initialCode = initialCode;
       this.present = fillArray(numRules, false);
       this.customRules = rules.filter(rule => rule.type === 'custom');
       this.nestedRules = rules.filter(rule => rule.type === 'expressionChain');
@@ -72,7 +72,7 @@ var challengeStore = Reflux.createStore({
   // edits code and overwrites it in CodeMirror
   onCodeEditOverride(input) {
     // state will be set on the resultant onCodeEditUser action
-    this.trigger(input || this.initialText);
+    this.trigger(input || this.initialCode);
   },
 
   verifyNestedRules(input) {
