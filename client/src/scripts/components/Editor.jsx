@@ -26,7 +26,9 @@ var Editor = React.createClass({
       lint: { esnext: true },
       mode: 'javascript',
       styleActiveLine: true,
-      theme: 'neo'
+      theme: 'neo',
+      indentWithTabs: false,
+      tabSize: 2,
     });
     this.cm = cm;
 
