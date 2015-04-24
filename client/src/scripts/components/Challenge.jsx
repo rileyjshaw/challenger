@@ -1,6 +1,7 @@
 var {React, createPureClass} = require('../util/createPureClass.js');
 
 var RuleList = require('./RuleList.jsx');
+var SuccessScreen = require('./SuccessScreen.jsx');
 var Editor = require('./Editor.jsx');
 var X = require('./icons/X.jsx');
 
@@ -8,6 +9,8 @@ var challengeCompleted = require('../actions').challengeCompleted;
 
 var Challenge = createPureClass({
   propTypes: {
+    courseCompleted: React.PropTypes.bool.isRequired,
+    key: React.PropTypes.number.isRequired,
     index: React.PropTypes.number.isRequired,
     maxIndex: React.PropTypes.number.isRequired,
     title: React.PropTypes.string.isRequired,
@@ -17,12 +20,17 @@ var Challenge = createPureClass({
     rules: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     required: React.PropTypes.arrayOf(React.PropTypes.bool).isRequired,
     present: React.PropTypes.arrayOf(React.PropTypes.bool).isRequired,
+    unmount: React.PropTypes.func.isRequired,
+    successText: React.PropTypes.object.isRequired,
   },
 
-  success: (code) => challengeCompleted(code), // TODO: need to pass code string to this function
+  challengeSuccess(code) {
+    challengeCompleted(code); // TODO: need to pass code string to this function
+  },
 
   render() {
     var {
+      courseCompleted,
       index,
       maxIndex,
       title,
@@ -32,6 +40,8 @@ var Challenge = createPureClass({
       rules,
       required,
       present,
+      unmount,
+      successText,
     } = this.props;
 
     // true if the `required` and `present` arrays match perfectly
@@ -42,33 +52,37 @@ var Challenge = createPureClass({
         <h1
           // !!!
           dangerouslySetInnerHTML={{
-            __html: `<small>${index + 1} of ${maxIndex + 1}</small>${title}`
+            __html: courseCompleted ?
+              'Congratulations' :
+              `<small>${index + 1} of ${maxIndex + 1}</small>${title}`
           }}
         />
         <button className='unmount' onClick={this.props.unmount}>
           <X size={48} />
         </button>
         <div className='challenge-frame'>
-          <div className='challenge-content'>
-            <p
-              className='description'
-              // !!!
-              dangerouslySetInnerHTML={{ __html: description }}
-            />
-            <RuleList
-              valid={valid}
-              checkingOutput={checkingOutput}
-              rules={rules}
-              required={required}
-              present={present}
-            />
-            <Editor />
-          </div>
+          {courseCompleted ? <SuccessScreen text={successText} /> :
+            <div className='challenge-content'>
+              <p
+                className='description'
+                // !!!
+                dangerouslySetInnerHTML={{ __html: description }}
+              />
+              <RuleList
+                valid={valid}
+                checkingOutput={checkingOutput}
+                rules={rules}
+                required={required}
+                present={present}
+              />
+              <Editor />
+            </div>
+          }
           <button
             className='submit'
-            disabled={!(valid && isCorrect)}
-            onClick={this.success}>
-              Submit
+            disabled={!(valid && isCorrect || courseCompleted)}
+            onClick={courseCompleted ? unmount : this.challengeSuccess}>
+              {courseCompleted ? 'Go Back' : 'Submit'}
           </button>
         </div>
       </div>

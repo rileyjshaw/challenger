@@ -13,7 +13,7 @@ var courseStore = Reflux.createStore({
     var newChallenge = this.course[index];
 
     if (newChallenge) this.trigger(newChallenge);
-    else alert('You did it!'); // TODO
+    else this.trigger({ courseCompleted: true });
   },
 
   onLoadCourse(newCourse) {
@@ -26,6 +26,7 @@ var courseStore = Reflux.createStore({
   },
 
   onChallengeCompleted(code) {
+    // TODO: Persist in localstorage instead
     this.course[this.challenge].initialCode = code;
 
     this.updateChallenge(++this.challenge);

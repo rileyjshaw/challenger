@@ -10,6 +10,11 @@ var challengeStore = require('../stores/challenge');
 var Challenge = require('./Challenge.jsx');
 
 var UI = createPureClass({
+  propTypes: {
+    unmount: React.PropTypes.func.isRequired,
+    successText: React.PropTypes.object.isRequired,
+  },
+
   mixins: [
     Reflux.connect(courseStore),
     Reflux.listenTo(challengeStore, 'onChallengeStoreChange')
@@ -17,6 +22,7 @@ var UI = createPureClass({
 
   getInitialState() {
     return {
+      courseCompleted: false,
       index: -1,
       maxIndex: -1,
       title: '',
@@ -25,7 +31,7 @@ var UI = createPureClass({
       checkingOutput: false,
       rules: [],
       required: [],
-      present: []
+      present: [],
     };
   },
 
@@ -42,8 +48,11 @@ var UI = createPureClass({
     // if (e.which === 27) this.unmount();
   },
 
+  unmount() { this.props.unmount(this.state.completed) },
+
   render() {
     var {
+      courseCompleted,
       index,
       maxIndex,
       title,
@@ -52,7 +61,7 @@ var UI = createPureClass({
       checkingOutput,
       rules,
       required,
-      present
+      present,
     } = this.state;
 
     return (
@@ -63,7 +72,8 @@ var UI = createPureClass({
         className='challenge-outer' >
         {index === -1 ? '' :
           <Challenge
-            key={index}
+            courseCompleted={courseCompleted}
+            key={courseCompleted ? -2 : index}
             index={index}
             maxIndex={maxIndex}
             title={title}
@@ -73,8 +83,10 @@ var UI = createPureClass({
             rules={rules}
             required={required}
             present={present}
-            unmount={this.props.unmount}
-          />
+            unmount={this.unmount}
+            successText={this.props.successText}
+
+            />
         }
       </ReactCSSTransitionGroup>
     );
