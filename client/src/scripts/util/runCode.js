@@ -1,43 +1,43 @@
-var jailed = require('jailed');
+var operative = require('operative');
 var babel = require('babel');
 
-function runCode (code, verify, trigger) {
-  function err (msg) {
-    console.log(`Your code just threw an error: ${msg}`);
-  }
+// TODO:
+// operative.setSelfURL('path/to/operative.js');
 
-  // wrap the verify function so that only one call needs
-  // to return true to flip `wasSuccessful` to true
-  var wasSuccessful = false;
-  function verifyInPlugin (...args) {
-    if (!wasSuccessful) wasSuccessful = verify(...args);
-  }
+function runCode (code, verify, trigger) {
+  // TODO: if limitExecutionTime can halt a worker without destroying
+  // it, we could do this with a single worker instead of making a
+  // new one every time code is run
+  var worker = operative(function (__code__, __verify__) {
+    eval(__code__);
+  });
 
   // transform our code string from es6 to es5
-  var es5 = babel.transform(code, { ast: false }).code;
-
-  // make our code plugin-ready by adding references to tunneled functions
-  // and wrapping it all in a try/catch block. \n wraps on `es5` string
-  // because babel can do wonky things with comment placement...
-  var pluginCode = 'var verify = application.remote.verifyInPlugin;' +
-    'try {\n' + es5 + '\n} catch (e) {application.remote.err(e.message);}' +
-    'application.disconnect();';
-
-  // create and start the plugin
-  var plugin = new jailed.DynamicPlugin(pluginCode, { err, verifyInPlugin });
+  var es5 = babel.transform(code, {
+    ast: false,
+    blacklist: ['useStrict'],
+  }).code;
 
   // ensure that long-running plugins eg. while(1) will
   // halt execution after 450ms
   var limitExecutionTime = setTimeout(() => {
-    plugin.disconnect();
-    console.log('Your code is taking too long to run; check your loops!');
+    worker.terminate();
+    trigger(false);
   }, 450);
 
-  plugin.whenDisconnected(() => {
-    clearTimeout(limitExecutionTime);
-    trigger(wasSuccessful);
-  });
-};
+  var passed = false;
+  // latchedVerify only needs to be correct once for passed to === true
+  function latchedVerify (...args) {
+    if (!passed && verify(...args)) {
+      clearTimeout(limitExecutionTime);
+      passed = true;
+      trigger(true);
+    }
+  }
+
+  // finally, spawn our worker
+  worker(es5, latchedVerify);
+}
 
 // debounce the exported function so that it's only run after
 // typing has paused for 450ms

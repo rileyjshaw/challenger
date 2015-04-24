@@ -96,10 +96,12 @@ var challengeStore = Reflux.createStore({
   },
 
   verifyOutput(input) {
-    var {fn, index} = this.output;
+    var {index, setup, teardown, verify} = this.output;
+    var fullCode = `${setup};${input};${teardown}`;
 
     this.present[index] = false;
-    runCode(input, fn, function trigger (present) {
+
+    runCode(fullCode, verify, function trigger (present) {
       this.present[index] = present;
       this.triggerPresent(true, false);
     }.bind(this));
