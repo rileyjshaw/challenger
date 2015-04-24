@@ -2,6 +2,13 @@
   "name": "challenger",
   "version": "0.0.0",
   "description": "Analyze student-generated JS and determine if certain aspects are written as expected",
+  "npmName": "challenger",
+  "npmFileMap": [{
+    "basePath": "/client/dist/",
+    "files": [
+      "*"
+    ]
+  }],
   "main": "client/dist/challenger.min.js",
   "scripts": {
     "test": "mocha"
