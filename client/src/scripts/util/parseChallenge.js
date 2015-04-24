@@ -30,7 +30,7 @@ function parseChallenge (args, index) {
     nestedRules = {},
     customRules = [],
     output,
-    initialCode = ''
+    initialCode = '',
   } = args;
 
   var nestedChains = chainTransform(nestedRules);
@@ -44,7 +44,7 @@ function parseChallenge (args, index) {
     // nested expression chains have arrays of expression strings as values
     .concat(nestedChains.map(chain => ({type: 'expressionChain', chain: chain.slice(1)})))
     // custom rules have evaluation functions as values
-    .concat(customRules.map(({description, fn}) => ({type: 'custom', description, fn})));
+    .concat(customRules.map(({description, verify}) => ({type: 'custom', description, verify})));
 
   var required = whitelist.map(() => true)
     .concat(blacklist.map(() => false))

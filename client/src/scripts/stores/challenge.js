@@ -90,8 +90,8 @@ var challengeStore = Reflux.createStore({
   },
 
   verifyCustomRules(input) {
-    this.customRules.forEach(({fn, index}) => {
-      this.present[index] = !!fn(input);
+    this.customRules.forEach(({verify, index}) => {
+      this.present[index] = !!verify(input);
     });
   },
 
