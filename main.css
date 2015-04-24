@@ -58,21 +58,22 @@ html, body {
             transform: translate(0, -50%); }
     .challenger-demo .demos li {
       margin: 1.6em 3em; }
-      .challenger-demo .demos li.try {
-        position: absolute;
-        right: 50%;
-        top: 0;
+    .challenger-demo .demos .try {
+      position: absolute;
+      right: 50%;
+      top: 40px;
+      margin: 0;
+      text-transform: uppercase;
+      -webkit-transform: translate(-398px);
+          -ms-transform: translate(-398px);
+              transform: translate(-398px); }
+      .challenger-demo .demos .try p {
+        line-height: 1.2em;
         margin: 0;
-        text-transform: uppercase;
-        -webkit-transform: translate(-398px);
-            -ms-transform: translate(-398px);
-                transform: translate(-398px); }
-        .challenger-demo .demos li.try p {
-          line-height: 1.2em;
-          font-size: 60px; }
+        font-size: 48px; }
     .challenger-demo .demos .small {
       display: block;
-      font-size: 24px;
+      font-size: 0.5em;
       text-transform: lowercase; }
   .challenger-demo button {
     margin: 0;
@@ -129,6 +130,12 @@ html, body {
     background-clip: padding-box;
     font-size: 48px;
     text-align: center; }
+  .challenger-demo h3 {
+    margin: 2em 0;
+    font-size: 30px;
+    text-align: center; }
+  .challenger-demo h2 + h3 {
+    margin-top: 0; }
   .challenger-demo .section {
     width: 76%;
     max-width: 840px;

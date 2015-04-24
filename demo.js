@@ -33,54 +33,65 @@ function updateSizes() {
   checkScroll();
 }
 
+function runCourse(course) {
+  return function () {
+    body.style.overflow = "hidden";
+    challenger(course, {
+      onExit: function onExit(success) {
+        body.style.overflow = "auto";
+      } });
+  };
+}
+
 updateSizes();
 window.addEventListener("resize", updateSizes);
 document.addEventListener("scroll", checkScroll);
 
-singleBtn.addEventListener("click", function () {
-  return challenger(single);
-}, false);
-seriesBtn.addEventListener("click", function () {
-  return challenger(series);
-}, false);
+singleBtn.addEventListener("click", runCourse(single), false);
+seriesBtn.addEventListener("click", runCourse(series), false);
 
 hljs.initHighlightingOnLoad();
 
 },{"./challenges/1":2,"./challenges/2":3,"./challenges/3":4,"./challenges/4":5}],2:[function(require,module,exports){
 "use strict";
 
-var initialCode = "var array = ['Donde', 'Esta', 'La', 'Biblioteca'];\n\nvar i = 0;\nwhile (i < array.length) {\n  if (i % 2 === 0) {\n    // we're on an even index\n  }\n\n  i++;\n}\n\nverify();\n";
+var initialCode = "function fizzbuzz (n) {\n  // ...\n}";
+
+var fizzbuzz = function (i) {
+  return (i % 3 ? "" : "Fizz") + (i % 5 ? "" : "Buzz") || i;
+};
+var testInputs = [24, 55, 15, 16, 120000];
+var expectedOutput = testInputs.map(fizzbuzz);
 
 module.exports = {
-  title: "for( ) the love of loops",
-  description: "Now that we've covered the <code>while</code> loop, it's time to take a look at its twin sister: the <code>for</code> loop. Iterate through the array using a <code>for</code> loop, and log the content for all <em>even</em> indices.",
+  title: "fizzbuzz in a tweet",
+  description: "Write a function called <code>fizzbuzz</code> that accepts a single argument <code>n</code>. <code>fizzbuzz</code> should return \"Fizz\" if <code>n</code> is a multiple of 3, \"Buzz\" if <code>n</code> is a multiple of 5, “FizzBuzz” if <code>n</code> is a multiple of both 3 and 5, and <code>n</code> if <code>n</code> is a multiple of neither 3 nor 5.",
   initialCode: initialCode,
-  blacklist: ["WhileStatement"],
-  nestedRules: {
-    ForStatement: {
-      IfStatement: {
-        required: true
-      }
-    }
-  },
   customRules: [{
-    description: "Program must have the word 'foobar' in it",
-    fn: function fn(code) {
-      return code.indexOf("foobar") > -1;
+    description: "Program must fit within a tweet (max 140 characters)",
+    verify: function verify(code) {
+      return code.length <= 140;
     }
   }],
   output: {
-    description: "Program must pass the string \"winner!\" into the verify function",
-    fn: function (str) {
-      return str === "winner!";
-    }
-  }
-};
+    description: "Program must correctly implement a fizzbuzz function",
+    verify: function () {
+      for (var _len = arguments.length, output = Array(_len), _key = 0; _key < _len; _key++) {
+        output[_key] = arguments[_key];
+      }
+
+      return output.every(function (n, i) {
+        return n == expectedOutput[i];
+      });
+    },
+    teardown: "__verify__(...[" + testInputs + "].map(fizzbuzz));" } };
 
 },{}],3:[function(require,module,exports){
 "use strict";
 
 var initialCode = "[0,1,2,3,4,5].map(verify);\nn => this;\n";
+
+var nums = [0, 1, 2, 3, 4, 5];
 
 module.exports = {
   title: "Arrow functions",
@@ -97,21 +108,17 @@ module.exports = {
   },
   customRules: [{
     description: "Program must be under 40 characters",
-    fn: function (str) {
+    verify: function (str) {
       return str.length < 40;
     }
   }],
   output: {
-    description: "Program must call the verify function on the numbers 0 through 5, in order",
-    fn: (function () {
-      var nums = [0, 1, 2, 3, 4, 5];
-
-      return function (i) {
-        if (i === nums[0]) nums.shift();
-        return nums.length === 0;
-      };
-    })()
-  }
+    description: "Program must call the function \"verify\" on the numbers 0 through 5, in order",
+    setup: "var verify = __verify__;",
+    verify: function verify(i) {
+      if (i === nums[0]) nums.shift();
+      return nums.length === 0;
+    } }
 };
 
 },{}],4:[function(require,module,exports){
@@ -133,47 +140,51 @@ module.exports = {
   },
   customRules: [{
     description: "Program must have the word 'foobar' in it",
-    fn: function fn(code) {
+    verify: function verify(code) {
       return code.indexOf("foobar") > -1;
     }
   }],
   output: {
     description: "Program must pass the string \"winner!\" into the verify function",
-    fn: function (str) {
+    setup: "var verify = __verify__;",
+    verify: function (str) {
       return str === "winner!";
-    }
-  }
+    } }
 };
 
 },{}],5:[function(require,module,exports){
 "use strict";
 
-var initialCode = "var array = ['Donde', 'Esta', 'La', 'Biblioteca'];\n\nvar i = 0;\nwhile (i < array.length) {\n  if (i % 2 === 0) {\n    // we're on an even index\n  }\n\n  i++;\n}\n\nverify();\n";
+var initialCode = "[0,1,2,3,4,5].map(verify);\nn => this;\n";
+
+var nums = [0, 1, 2, 3, 4, 5];
 
 module.exports = {
-  title: "for( ) the love of loops",
-  description: "Now that we've covered the <code>while</code> loop, it's time to take a look at its twin sister: the <code>for</code> loop. Iterate through the array using a <code>for</code> loop, and log the content for all <em>even</em> indices.",
+  title: "Arrow functions",
+  description: "Arrow functions let you define functions with a shorter syntax than standard <code>function</code> expressions. They also lexically bind the <code>this</code> value, so you don't need to <code>.bind(this)</code> as frequently!",
   initialCode: initialCode,
-  blacklist: ["WhileStatement"],
+  whitelist: ["ArrowFunctionExpression"],
+  blacklist: ["FunctionExpression"],
   nestedRules: {
-    ForStatement: {
-      IfStatement: {
+    ArrowFunctionExpression: {
+      ThisExpression: {
         required: true
       }
     }
   },
   customRules: [{
-    description: "Program must have the word 'foobar' in it",
-    fn: function fn(code) {
-      return code.indexOf("foobar") > -1;
+    description: "Program must be under 40 characters",
+    verify: function (str) {
+      return str.length < 40;
     }
   }],
   output: {
-    description: "Program must pass the string \"winner!\" into the verify function",
-    fn: function (str) {
-      return str === "winner!";
-    }
-  }
+    description: "Program must call the function \"verify\" on the numbers 0 through 5, in order",
+    setup: "var verify = __verify__;",
+    verify: function verify(i) {
+      if (i === nums[0]) nums.shift();
+      return nums.length === 0;
+    } }
 };
 
 },{}]},{},[1]);
