@@ -58,7 +58,7 @@
   "dependencies": {
     "acorn": "^1.0.3",
     "babel": "^5.1.13",
-    "codemirror": "^5.1.0",
+    "codemirror": "^5.2.0",
     "flatmap": "0.0.3",
     "jshint": "^2.6.3",
     "operative": "^0.4.1",
