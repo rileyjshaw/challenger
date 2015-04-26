@@ -149,14 +149,14 @@ challenger.loadCourse([challenge1, challenge2, challenge3/*, ... */]);</code></p
       <p>To install the library, use <a href="https://www.npmjs.com/package/challenger">npm</a> or <a href="http://bower.io/">bower</a>:</p>
       <pre><code class="language-bash">bower install challenger # or...
 npm install challenger</code></pre>
-      <p>The source can also be downloaded from <a href="https://github.com/rileyjshaw/challenger" target="_blank">GitHub</a>, and is hosted on <a href="https://cdnjs.com/libraries/challenger" target="_blank">cdnjs</a>.</p>
+      <p>Challenger is also hosted on <a href="https://github.com/rileyjshaw/challenger" target="_blank">GitHub</a> and <a href="https://cdnjs.com/libraries/challenger" target="_blank">cdnjs</a>.</p>
       <p>All necessary files exist within the <code>/client/dist/</code> directory:</p>
       <ul>
-        <li><p><code>challenger.min.js</code>— the main library file.</p></li>
-        <li><p><code>challenger.min.css</code>— the base stylesheet. Even if you plan on restyling the challenges, it's recommended that you include this; it will give the challenges some initial structure to work with.</p></li>
-        <li><p><code>_*.*</code>— helper modules for sandboxing. <strong>These must be in the same folder as challenger.min.js if you have any <code>output</code> rules!</strong></p></li>
+        <li><p><code>challenger.min.js</code>— the main library file</p></li>
+        <li><p><code>challenger.min.css</code>— the base stylesheet. Even if you plan on restyling the challenges, it's recommended that you include this; it will give the challenges some initial structure to work with</p></li>
+        <li><p><code>operative.min.js</code>— helper module, required if running <code class="language-js">output</code> rules in IE10</p></li>
       </ul>
-      <p>Sadly, a simple call to <code class="language-js">require('challenger')</code> <strong>won't work</strong> without also copying the <code>_*.*</code> files to the same folder as your script. This is because Challenger runs all client code in a sandboxed iframe, so certain modules need to be broken out and re-loaded into the sandboxes. For more information on how sandboxing is implemented, check out <a href="https://github.com/asvd/jailed" target="_blank">jailed</a>.</p>
+      <p>Sadly if you need to use IE10 with <code classs="language-javascript">output</code> rules, <code class="language-js">require('challenger')</code> won't work without also copying <code>operative.min.js</code> to the same folder as your script. Challenger runs all client code in a sandboxed Worker or iframe, and certain components need to be broken out and re-loaded into the sandbox. For more information on how sandboxing is implemented, check out <a href="https://github.com/padolsey/operative" target="_blank">operative</a>.</p>
     </div>
 
     <footer>
