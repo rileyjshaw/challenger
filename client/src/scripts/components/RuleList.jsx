@@ -26,6 +26,7 @@ var RuleList = createPureClass({
           required={required[i]}
           present={present[i]}
           blocked={(isChain && !valid) || (isOutput && checkingOutput)}
+          spins={isOutput}
         />
       );
     });
