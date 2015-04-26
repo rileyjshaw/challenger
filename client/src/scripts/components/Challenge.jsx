@@ -21,7 +21,10 @@ var Challenge = createPureClass({
     required: React.PropTypes.arrayOf(React.PropTypes.bool).isRequired,
     present: React.PropTypes.arrayOf(React.PropTypes.bool).isRequired,
     unmount: React.PropTypes.func.isRequired,
-    successText: React.PropTypes.object.isRequired,
+    successText: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.object,
+    ]),
   },
 
   challengeSuccess(code) {

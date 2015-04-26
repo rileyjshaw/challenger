@@ -5,10 +5,7 @@ var loadCourse = require('./actions').loadCourse;
 function challenger (course, {
   parent = document.body,
   onExit = (success) => null,
-  successText = {
-    before: 'Way to go!',
-    after: 'You just passed the final exercise of this course.',
-  }
+  successText,
 }) {
   function unmount (success) {
     onExit(success);

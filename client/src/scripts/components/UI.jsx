@@ -12,7 +12,10 @@ var Challenge = require('./Challenge.jsx');
 var UI = createPureClass({
   propTypes: {
     unmount: React.PropTypes.func.isRequired,
-    successText: React.PropTypes.object.isRequired,
+    successText: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.object,
+    ]),
   },
 
   mixins: [
