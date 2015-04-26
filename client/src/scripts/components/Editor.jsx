@@ -18,7 +18,6 @@ var Editor = React.createClass({
   mixins: [Reflux.listenTo(challengeStore, 'onChallengeStoreChange')],
 
   componentDidMount() {
-    // TODO: Invisible cursor in ie8
     var cm = CodeMirror.fromTextArea(this.getDOMNode(), {
       autofocus: true,
       gutters: ['CodeMirror-lint-markers'],

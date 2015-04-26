@@ -1,8 +1,3 @@
-// ie8
-require('es5-shim');
-require('es5-shim/es5-sham');
-require('console-polyfill');
-
 var React = require('react');
 var UI = require('./components/UI.jsx');
 var loadCourse = require('./actions').loadCourse;

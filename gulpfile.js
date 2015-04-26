@@ -61,9 +61,16 @@ gulp.task('demo_scripts', ['demo_lint'], function() {
 gulp.task('sass', function () {
   return gulp.src(paths.client.stylesheets.entry)
     .pipe($.sass({ indentedSyntax: true }))
-    .pipe($.autoprefixer({
-      browsers: ['ie >= 8', '> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1']
-    }))
+    .pipe($.autoprefixer({ browsers: [
+        'ie >= 9',
+        'ff >= 9',
+        'Chrome >= 18',
+        'Opera >= 15',
+        'Safari >= 5.1',
+        '> 1%',
+        'last 2 versions',
+        'Firefox ESR'
+    ]}))
     .pipe(gulp.dest(paths.client.temp));
 });
 

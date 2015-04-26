@@ -1,28 +1,20 @@
 .challenger
+  .challenge
+    transition: left 1s
+
   .challenge-enter
-    left: 150%
+    left: 100%
 
     &.challenge-enter-active
-      left: 50% // resting state
-      transition: left 1s
-
-  .challenge-leave
-    left: 50% // resting state
-
-    &.challenge-leave-active
-      left: -50%
-      transition: left 1s
-
-@media screen and (max-width: $wshift)
-  .challenger
-    .challenge-enter
-      left: 100%
-
-      &.challenge-enter-active
-        left: 0 // resting state
-
-    .challenge-leave
       left: 0 // resting state
 
-      &.challenge-leave-active
-        left: -100%
+  .challenge-leave
+    // remove from flow & vertical center
+    position: absolute
+    top: 50%
+    transform: translate(0, -50%)
+
+    left: 0 // resting state
+
+    &.challenge-leave-active
+      left: -100%

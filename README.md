@@ -18,7 +18,7 @@ For full documentation including usage examples, visit the [main project page](h
  - [x] ~~Code evaluation on the client~~
  - [ ] Code evaluation on the server
  - [x] ~~Add `setup` and `teardown` options to challenge objects~~
- - [ ] Fix CodeMirror rendering in older versions of Firefox
+ - [x] ~~Fix CodeMirror rendering in older versions of Firefox~~
  - [ ] **Reduce the bundle size**
 
 Reducing bundle size important, as we're currently weighing in at ~2M. There's a lot of bloat from redundant dependencies - if anyone has experience with this I'd really appreciate a hand.
@@ -27,7 +27,7 @@ Reducing bundle size important, as we're currently weighing in at ~2M. There's a
 Tested with [BrowserStack](https://www.browserstack.com/)
 
  - Chrome 18+
- - Firefox 34+
+ - Firefox 9+
  - Opera 15+
  - Safari 5.1+
  - IE9+

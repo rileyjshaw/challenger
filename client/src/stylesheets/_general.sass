@@ -1,11 +1,24 @@
+.challenge-outer
+  height: 100%
+  width: 100%
+  white-space: nowrap
+  text-align: center
+
+  &::before
+    content: ''
+    display: inline-block
+    height: 100%
+    vertical-align: middle
+
 .challenge
-  position: absolute
-  top: 50%
-  left: 50%
+  position: relative
+  display: inline-block
   width: 90%
   max-width: 1280px
+  vertical-align: middle
+  white-space: normal
+  text-align: left
   background: #fff
-  transform: translate(-50%, -50%)
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12)
 
   h1
