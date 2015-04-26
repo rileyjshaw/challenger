@@ -26,9 +26,7 @@ var courseStore = Reflux.createStore({
   },
 
   onChallengeCompleted(code) {
-    // TODO: Persist in localstorage instead
     this.course[this.challenge].initialCode = code;
-
     this.updateChallenge(++this.challenge);
   },
 

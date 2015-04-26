@@ -27,8 +27,9 @@ var Challenge = createPureClass({
     ]),
   },
 
-  challengeSuccess(code) {
-    challengeCompleted(code); // TODO: need to pass code string to this function
+  challengeSuccess() {
+    var code = this.refs.editor.getText();
+    challengeCompleted(code);
   },
 
   render() {
@@ -78,7 +79,7 @@ var Challenge = createPureClass({
                 required={required}
                 present={present}
               />
-              <Editor />
+              <Editor ref='editor' />
             </div>
           }
           <button

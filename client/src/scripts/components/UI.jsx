@@ -47,7 +47,6 @@ var UI = createPureClass({
   },
 
   handleKeyDown(e){
-    // TODO: is this a good idea..?
     // if (e.which === 27) this.unmount();
   },
 
