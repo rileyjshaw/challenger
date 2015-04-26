@@ -54,13 +54,11 @@
   "bugs": {
     "url": "https://github.com/rileyjshaw/challenger/issues"
   },
-  "homepage": "https://github.com/rileyjshaw/challenger",
+  "homepage": "http://rileyjshaw.com/challenger",
   "dependencies": {
     "acorn": "^1.0.3",
-    "babel": "^5.0.12",
+    "babel": "^5.1.13",
     "codemirror": "^5.1.0",
-    "console-polyfill": "^0.2.1",
-    "es5-shim": "^4.1.0",
     "flatmap": "0.0.3",
     "jshint": "^2.6.3",
     "operative": "^0.4.1",
