@@ -116,7 +116,7 @@ var challenge = {
     teardown: 'if (Array.isArray(sorted)) __verify__(...sorted);'
   }
 };</code></pre>
-          <p>Note: the above snippet uses features of ECMAScript 6. Good news: <em>users can write ES6 their challenges using ES6</em> and it will be transpiled to ES5 before running!</p>
+          <p>Note: the above snippet uses features of ECMAScript 6. Good news: <em>users can write their challenges using ES6</em> and it will be transpiled to ES5 before running!</p>
         </li>
       </ul>
 
@@ -139,7 +139,7 @@ challenger.loadCourse([challenge1, challenge2, challenge3/*, ... */]);</code></p
       <p>The <code class="language-js">challenger</code> function can accept an options object as its last argument. The following keys can be set:</p>
       <ul>
         <li><p><code class="language-js">parent</code>— DOM Node to insert the challenge into. Defaults to <code class="language-js">document.body</code></p></li>
-        <li><p><code class="language-js">onExit(success)</code>— a callback function to run when the challenge is closed; <code class="language-js">success</code> is a boolean</p></li>
+        <li><p><code class="language-js">onExit(success)</code>— a callback function to run when the challenge is closed; <code class="language-js">success</code> is boolean</p></li>
         <li><p><code class="language-js">successText</code>— a string to display when the user is successful</p></li>
       </ul>
     </div>
