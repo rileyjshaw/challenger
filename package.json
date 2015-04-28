@@ -1,14 +1,16 @@
 {
   "name": "challenger",
-  "version": "0.0.0",
-  "description": "Analyze student-generated JS and determine if certain aspects are written as expected",
   "npmName": "challenger",
-  "npmFileMap": [{
-    "basePath": "/client/dist/",
-    "files": [
-      "*"
-    ]
-  }],
+  "npmFileMap": [
+    {
+      "basePath": "/client/dist/",
+      "files": [
+        "*"
+      ]
+    }
+  ],
+  "version": "1.0.0",
+  "description": "Pop-up JavaScript challenges in your browser",
   "main": "client/dist/challenger.min.js",
   "scripts": {
     "test": "mocha"
@@ -21,7 +23,9 @@
     "programming",
     "challenge",
     "education",
-    "analysis"
+    "analysis",
+    "learning",
+    "sandbox"
   ],
   "author": "rileyjshaw <i@rileyjshaw.com> (http://rileyjshaw.com/)",
   "license": "MIT",

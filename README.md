@@ -1,4 +1,4 @@
-# Challenger
+# Challenger v1.0.0
 _Pop-up JavaScript challenges in your browser_
 
 Challenger is a drop-in JavaScript library that adds interactive programming challenges to any page. Challenges are flexible and expressive, and are super simple to write.
