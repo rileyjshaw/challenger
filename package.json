@@ -9,7 +9,7 @@
       ]
     }
   ],
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pop-up JavaScript challenges in your browser",
   "main": "client/dist/challenger.min.js",
   "scripts": {
