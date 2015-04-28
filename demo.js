@@ -98,7 +98,7 @@ var expectedOutput = testInputs.map(function (n) {
 
 module.exports = {
   title: "Square up",
-  description: "An arrow function lets you use a shorter syntax than a standard <code>function</code>. It implicitly returns its expression, so there's no need for a <code>return</code> statement. Complete the example below to save an array of squared numbers to <code>squared</code>.",
+  description: "Arrow functions use a shorter syntax than standard <code>function</code>s. They implicitly return their expression, so there's no need for a <code>return</code> statement. Complete the example below to save an array of squared numbers to <code>squared</code>.",
   initialCode: initialCode,
   whitelist: ["ArrowFunctionExpression"],
   blacklist: ["FunctionDeclaration"],
