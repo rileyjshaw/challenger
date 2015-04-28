@@ -2,7 +2,7 @@
 "use strict";
 
 var single = require("./challenges/1");
-var series = [require("./challenges/2"), require("./challenges/3"), require("./challenges/4")];
+var series = [require("./challenges/2"), require("./challenges/3")];
 
 var sticky = false;
 var squished = false;
@@ -52,7 +52,7 @@ seriesBtn.addEventListener("click", runCourse(series), false);
 
 hljs.initHighlightingOnLoad();
 
-},{"./challenges/1":2,"./challenges/2":3,"./challenges/3":4,"./challenges/4":5}],2:[function(require,module,exports){
+},{"./challenges/1":2,"./challenges/2":3,"./challenges/3":4}],2:[function(require,module,exports){
 "use strict";
 
 var initialCode = "function fizzbuzz (n) {\n  // ...\n}";
@@ -89,102 +89,60 @@ module.exports = {
 },{}],3:[function(require,module,exports){
 "use strict";
 
-var initialCode = "[0,1,2,3,4,5].map(verify);\nn => this;\n";
+var initialCode = "// the array `numbers` is already defined for you\nvar squares = numbers.map(n => /* ??? */);\n";
 
-var nums = [0, 1, 2, 3, 4, 5];
+var testInputs = [234, 114, -89, 90, 45, 0, 1];
+var expectedOutput = testInputs.map(function (n) {
+  return n * n;
+});
 
 module.exports = {
-  title: "Arrow functions",
-  description: "Arrow functions let you define functions with a shorter syntax than standard <code>function</code> expressions. They also lexically bind the <code>this</code> value, so you don't need to <code>.bind(this)</code> as frequently!",
+  title: "Square up",
+  description: "An arrow function lets you use a shorter syntax than a standard <code>function</code>. It implicitly returns its expression, so there's no need for a <code>return</code> statement. Complete the example below to save an array of squared numbers to <code>squared</code>.",
   initialCode: initialCode,
   whitelist: ["ArrowFunctionExpression"],
-  blacklist: ["FunctionExpression"],
-  nestedRules: {
-    ArrowFunctionExpression: {
-      ThisExpression: {
-        required: true
-      }
-    }
-  },
-  customRules: [{
-    description: "Program must be under 40 characters",
-    verify: function (str) {
-      return str.length < 40;
-    }
-  }],
+  blacklist: ["FunctionDeclaration"],
   output: {
-    description: "Program must call the function \"verify\" on the numbers 0 through 5, in order",
-    setup: "var verify = __verify__;",
-    verify: function verify(i) {
-      if (i === nums[0]) nums.shift();
-      return nums.length === 0;
-    } }
+    description: "Program must save the squared `numbers` array into `squares`",
+    setup: "var numbers = [" + testInputs + "];",
+    verify: function () {
+      for (var _len = arguments.length, output = Array(_len), _key = 0; _key < _len; _key++) {
+        output[_key] = arguments[_key];
+      }
+
+      return output.every(function (n, i) {
+        return n == expectedOutput[i];
+      });
+    },
+    teardown: "__verify__(...squares);"
+  }
 };
 
 },{}],4:[function(require,module,exports){
 "use strict";
 
-var initialCode = "var array = ['Donde', 'Esta', 'La', 'Biblioteca'];\n\nvar i = 0;\nwhile (i < array.length) {\n  if (i % 2 === 0) {\n    // we're on an even index\n  }\n\n  i++;\n}\n\nverify();\n";
+var initialCode = "function Cat () {\n  this.age = 0;\n\n  // some cats age quickly...\n  setInterval((function () {\n    ++this.age;\n  }).bind(this), 100);\n}\n";
 
 module.exports = {
-  title: "for( ) the love of loops",
-  description: "Now that we've covered the <code>while</code> loop, it's time to take a look at its twin sister: the <code>for</code> loop. Iterate through the array using a <code>for</code> loop, and log the content for all <em>even</em> indices.",
+  title: "<code>this</code> rules!",
+  description: "Arrow functions also lexically bind the <code>this</code> value, so you don't need to use tricks like <code>var that = this</code> or <code>.bind(this)</code>. Try refactoring the constructor below to use arrow functions.",
   initialCode: initialCode,
-  blacklist: ["WhileStatement"],
   nestedRules: {
-    ForStatement: {
-      IfStatement: {
-        required: true
-      }
-    }
+    FunctionDeclaration: {
+      ArrowFunctionExpression: {
+        ThisExpression: { required: true }
+      },
+      FunctionExpression: {
+        ThisExpression: { required: false }
+      } }
   },
-  customRules: [{
-    description: "Program must have the word 'foobar' in it",
-    verify: function verify(code) {
-      return code.indexOf("foobar") > -1;
-    }
-  }],
   output: {
-    description: "Program must pass the string \"winner!\" into the verify function",
-    setup: "var verify = __verify__;",
-    verify: function (str) {
-      return str === "winner!";
-    } }
-};
-
-},{}],5:[function(require,module,exports){
-"use strict";
-
-var initialCode = "[0,1,2,3,4,5].map(verify);\nn => this;\n";
-
-var nums = [0, 1, 2, 3, 4, 5];
-
-module.exports = {
-  title: "Arrow functions",
-  description: "Arrow functions let you define functions with a shorter syntax than standard <code>function</code> expressions. They also lexically bind the <code>this</code> value, so you don't need to <code>.bind(this)</code> as frequently!",
-  initialCode: initialCode,
-  whitelist: ["ArrowFunctionExpression"],
-  blacklist: ["FunctionExpression"],
-  nestedRules: {
-    ArrowFunctionExpression: {
-      ThisExpression: {
-        required: true
-      }
-    }
-  },
-  customRules: [{
-    description: "Program must be under 40 characters",
-    verify: function (str) {
-      return str.length < 40;
-    }
-  }],
-  output: {
-    description: "Program must call the function \"verify\" on the numbers 0 through 5, in order",
-    setup: "var verify = __verify__;",
-    verify: function verify(i) {
-      if (i === nums[0]) nums.shift();
-      return nums.length === 0;
-    } }
+    description: "Program must increment the Cat's age every 100ms using an arrow function",
+    verify: function (age) {
+      return age > 0;
+    },
+    teardown: "var meow = new Cat(); setTimeout(_ => __verify__(meow.age), 300);"
+  }
 };
 
 },{}]},{},[1]);
