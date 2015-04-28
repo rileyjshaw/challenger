@@ -157,6 +157,41 @@ npm install challenger</code></pre>
         <li><p><code>operative.min.js</code>— helper module, required if running <code class="language-js">output</code> rules in IE10</p></li>
       </ul>
       <p>Sadly if you need to use IE10 with <code classs="language-javascript">output</code> rules, <code class="language-js">require('challenger')</code> won't work without also copying <code>operative.min.js</code> to the same folder as your script. Challenger runs all client code in a sandboxed Worker or iframe, and certain components need to be broken out and re-loaded into the sandbox. For more information on how sandboxing is implemented, check out <a href="https://github.com/padolsey/operative" target="_blank">operative</a>.</p>
+
+      <h3>Browser support</h3>
+
+      <table class="browser-support">
+        <tr>
+          <th>
+            <img src="firefox.png" alt="Mozilla Firefox" title="Mozilla Firefox">
+          </th>
+          <th>
+            <img src="chrome.png" alt="Google Chrome" title="Google Chrome">
+          </th>
+          <th>
+            <img src="opera.png" alt="Opera" title="Opera">
+          </th>
+          <th>
+            <img src="internet-explorer.png" alt="Internet Explorer" title="Internet Explorer">
+          </th>
+          <th>
+            <img src="safari.png" alt="Safari" title="Safari">
+          </th>
+          <th>
+            <img src="safari.png" class="mobile-safari" alt="Mobile Safari" title="Mobile Safari">
+          </th>
+        </tr>
+        <tr>
+          <td>9+</td>
+          <td>18+</td>
+          <td>15+</td>
+          <td>9+</td>
+          <td>5.1+</td>
+          <td>7+</td>
+        </tr>
+      </table>
+
+      <p>If you need to support older browsers, include <a href="https://github.com/es-shims/es5-shim">krisowal's es5-shim</a> along with <code>es5-sham.js</code> from the same repository. You might also need to tweak the CSS.</p>
     </div>
 
     <footer>

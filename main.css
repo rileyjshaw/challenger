@@ -150,6 +150,17 @@ html, body {
     line-height: 48px; }
     .squished .challenger-demo nav a::before, .squished .challenger-demo nav a::after {
       bottom: 9px; }
+  .challenger-demo .browser-support {
+    width: 100%;
+    table-layout: fixed;
+    font-weight: bold;
+    text-align: center; }
+    .challenger-demo .browser-support img {
+      height: 72px;
+      width: 72px; }
+    .challenger-demo .browser-support .mobile-safari {
+      height: 36px;
+      width: 36px; }
   .challenger-demo footer {
     margin-top: 84px;
     padding: 24px 0;
