@@ -1,0 +1,34 @@
+{
+  "name": "challenger",
+  "version": "1.0.0",
+  "homepage": "https://github.com/rileyjshaw/challenger/",
+  "authors": [
+    "rileyjshaw <i@rileyjshaw.com> (http://rileyjshaw.com/)"
+  ],
+  "description": "Pop-up JavaScript challenges in your browser",
+  "main": "client/dist/challenger.min.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "programming",
+    "challenge",
+    "education",
+    "analysis",
+    "learning",
+    "sandbox"
+  ],
+  "license": "MIT",
+  "ignore": [
+    ".DS_Store",
+    "node_modules",
+    "bower_components",
+    "server",
+    "test",
+    "demo",
+    "temp",
+    ".publish"
+  ]
+}

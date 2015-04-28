@@ -1,12 +1,10 @@
-// accepts an array of `expressionChains` and organizes them
+// accepts an array of rules and organizes the expression chains
 // in an object according to their deepest-nested expression.
 //
-module.exports = function categorizeChains (expressionChains) {
-  var categorized = {};
-
-  expressionChains.forEach(function (chain, i) {
-    // the deepest-nested expression, i.e. the one we'll
-    // be looking for
+module.exports = function categorizeChains (rules) {
+  return rules.reduce((categorized, {chain, index}) => {
+    // the deepest-nested expression, i.e. the one we're
+    // looking for
     var exp = chain[0];
 
     if (!categorized[exp]) {
@@ -15,9 +13,9 @@ module.exports = function categorizeChains (expressionChains) {
 
     categorized[exp].push({
       chain: chain.slice(1),
-      index: i
+      index
     });
-  });
 
-  return categorized;
+    return categorized;
+  }, {});
 };

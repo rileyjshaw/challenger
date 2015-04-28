@@ -1,0 +1,20 @@
+.challenger
+  .challenge
+    transition: left 1s
+
+  .challenge-enter
+    left: 100%
+
+    &.challenge-enter-active
+      left: 0 // resting state
+
+  .challenge-leave
+    // remove from flow & vertical center
+    position: absolute
+    top: 50%
+    transform: translate(0, -50%)
+
+    left: 0 // resting state
+
+    &.challenge-leave-active
+      left: -100%

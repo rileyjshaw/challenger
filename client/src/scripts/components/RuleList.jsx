@@ -1,23 +1,32 @@
-var React = require('react');
+var {React, createPureClass} = require('../util/createPureClass.js');
 var Rule = require('./Rule.jsx');
 
-var RuleList = React.createClass({
+var makeChainReadable = require('../util/makeChainReadable');
+
+var RuleList = createPureClass({
+  propTypes: {
+    valid: React.PropTypes.bool.isRequired,
+    checkingOutput: React.PropTypes.bool.isRequired,
+    rules: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    required: React.PropTypes.arrayOf(React.PropTypes.bool).isRequired,
+    present: React.PropTypes.arrayOf(React.PropTypes.bool).isRequired
+  },
 
   render() {
-    // destructure this.props
-    var {
-      expressionChains: expressionChains,
-      required: required,
-      present: present
-    } = this.props;
+    var {rules, required, present, valid, checkingOutput} = this.props;
 
-    var rules = expressionChains.map(function (chain, i) {
+    rules = rules.map(function ({type, chain, description}, i) {
+      var isChain = type === 'expressionChain';
+      var isOutput = type === 'output';
+
       return (
         <Rule
           key={i + 1}
-          expressionChain={chain}
+          description={isChain ? makeChainReadable(chain, required[i]) : description}
           required={required[i]}
           present={present[i]}
+          blocked={(isChain && !valid) || (isOutput && checkingOutput)}
+          spins={isOutput}
         />
       );
     });
@@ -26,8 +35,8 @@ var RuleList = React.createClass({
       <Rule
         key={0}
         required={true}
-        description='be valid JavaScript'
-        present={this.props.valid}
+        description='Program must be valid JavaScript'
+        present={valid}
       />
     );
 

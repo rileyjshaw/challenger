@@ -11,10 +11,33 @@ var paths = {
       dir: './client/src/stylesheets/',
       entry: './client/src/stylesheets/main.sass',
       all: './client/src/stylesheets/**/*.sass',
+      plugins: [
+        './node_modules/codemirror/lib/codemirror.css',
+        './node_modules/codemirror/theme/neo.css',
+        './node_modules/codemirror/addon/lint/lint.css',
+      ],
     },
     static: {
-      dir: './client/src/static/',
-      all: './client/src/static/**/*',
+      all: ['./node_modules/operative/dist/operative.min.js'],
+    },
+    temp: './client/temp/',
+  },
+  demo: {
+    dir: './demo/src/',
+    dist: './demo/dist/',
+    scripts: {
+      dir: './demo/src/scripts/',
+      entry: './demo/src/scripts/main.js',
+      all: './demo/src/scripts/**/*.js',
+    },
+    stylesheets: {
+      dir: './demo/src/stylesheets/',
+      entry: './demo/src/stylesheets/main.sass',
+      all: './demo/src/stylesheets/**/*.sass',
+    },
+    static: {
+      dir: './demo/src/static/',
+      all: ['./demo/src/static/**/*', './node_modules/operative/dist/operative.min.js'],
     },
   },
   server: {

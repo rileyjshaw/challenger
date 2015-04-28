@@ -3,7 +3,8 @@
 var Reflux = require('reflux');
 
 var actions = Reflux.createActions([
-  'challengeUpdate',
+  'loadCourse',
+  'challengeCompleted',
   'codeEditUser',
   // replaces text in CodeMirror
   'codeEditOverride'

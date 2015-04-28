@@ -1,0 +1,22 @@
+.spinner
+  position: absolute
+  top: 0
+  left: 0
+  display: none
+  height: 100%
+  width: 100%
+
+  svg
+    position: absolute
+    top: 50%
+    left: 50%
+    animation: rotate 2s linear infinite
+
+  circle
+    stroke: #fff
+    fill: none
+    animation: dash 1.5s ease-in-out infinite
+    stroke-linecap: round
+
+.spinning .spinner
+  display: block

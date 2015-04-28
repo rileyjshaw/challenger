@@ -1,31 +1,94 @@
-var React = require('react');
+var {React, createPureClass} = require('../util/createPureClass.js');
 
 var RuleList = require('./RuleList.jsx');
+var SuccessScreen = require('./SuccessScreen.jsx');
 var Editor = require('./Editor.jsx');
+var X = require('./icons/X.jsx');
 
-var Challenge = React.createClass({
-  success: () => alert('You did it!'),
+var challengeCompleted = require('../actions').challengeCompleted;
+
+var Challenge = createPureClass({
+  propTypes: {
+    courseCompleted: React.PropTypes.bool.isRequired,
+    key: React.PropTypes.number.isRequired,
+    index: React.PropTypes.number.isRequired,
+    maxIndex: React.PropTypes.number.isRequired,
+    title: React.PropTypes.string.isRequired,
+    description: React.PropTypes.string.isRequired,
+    valid: React.PropTypes.bool.isRequired,
+    checkingOutput: React.PropTypes.bool.isRequired,
+    rules: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    required: React.PropTypes.arrayOf(React.PropTypes.bool).isRequired,
+    present: React.PropTypes.arrayOf(React.PropTypes.bool).isRequired,
+    unmount: React.PropTypes.func.isRequired,
+    successText: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.object,
+    ]),
+  },
+
+  challengeSuccess() {
+    var code = this.refs.editor.getText();
+    challengeCompleted(code);
+  },
 
   render() {
+    var {
+      courseCompleted,
+      index,
+      maxIndex,
+      title,
+      description,
+      valid,
+      checkingOutput,
+      rules,
+      required,
+      present,
+      unmount,
+      successText,
+    } = this.props;
+
+    // true if the `required` and `present` arrays match perfectly
+    var isCorrect = required.every((x, i) => x === present[i]);
+
     return (
-      <div>
+      <div className='challenge'>
         <h1
           // !!!
-          dangerouslySetInnerHTML={{ __html: this.props.title }}
+          dangerouslySetInnerHTML={{
+            __html: courseCompleted ?
+              'Congratulations' :
+              `<small>${index + 1} of ${maxIndex + 1}</small>${title}`
+          }}
         />
-        <p
-          className='description'
-          // !!!
-          dangerouslySetInnerHTML={{ __html: this.props.description }}
-        />
-        <RuleList
-          valid={this.props.valid}
-          expressionChains={this.props.expressionChains}
-          required={this.props.required}
-          present={this.props.present}
-        />
-        <Editor />
-        <button disabled={!this.props.correct} onClick={this.success}>Submit</button>
+        <button className='unmount' onClick={this.props.unmount}>
+          <X size={48} />
+        </button>
+        <div className='challenge-frame'>
+          {courseCompleted ? <SuccessScreen text={successText} /> :
+            <div className='challenge-content'>
+              <p
+                className='description'
+                // !!!
+                dangerouslySetInnerHTML={{ __html: description }}
+              />
+              <RuleList
+                valid={valid}
+                checkingOutput={checkingOutput}
+                rules={rules}
+                required={required}
+                present={present}
+              />
+              <Editor ref='editor' />
+            </div>
+          }
+          <button
+            className='submit'
+            disabled={!(valid && isCorrect || courseCompleted)}
+            onClick={courseCompleted ? unmount : this.challengeSuccess}>
+              {courseCompleted ? 'Go Back' : 'Submit'}
+          </button>
+        </div>
       </div>
     );
   },

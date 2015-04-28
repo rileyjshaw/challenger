@@ -1,17 +1,24 @@
-// ie8
-require('es5-shim');
-require('es5-shim/es5-sham');
-require('console-polyfill');
-
 var React = require('react');
 var UI = require('./components/UI.jsx');
+var loadCourse = require('./actions').loadCourse;
 
-var challengeUpdate = require('./actions').challengeUpdate;
-var challenge = require('./challenges/1');
+function challenger (course, {
+  parent = document.body,
+  onExit = (success) => null,
+  successText,
+}) {
+  function unmount (success) {
+    onExit(success);
+    React.unmountComponentAtNode(container);
+    parent.removeChild(container);
+  }
 
-React.render(
-  <UI />,
-  document.getElementById('react-container')
-);
+  var container = document.createElement('div');
+  container.className = 'challenger';
+  parent.appendChild(container);
 
-challengeUpdate(challenge);
+  React.render(<UI unmount={unmount} successText={successText} />, container);
+  loadCourse(course);
+}
+
+module.exports = challenger;

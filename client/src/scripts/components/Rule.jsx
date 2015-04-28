@@ -1,41 +1,25 @@
-var React = require('react');
-var isVowel = require('../util/isVowel');
+var {React, createPureClass} = require('../util/createPureClass.js');
+var Spinner = require('./icons/Spinner.jsx');
 
-var Rule = React.createClass({
+var Rule = createPureClass({
+  propTypes: {
+    description: React.PropTypes.node.isRequired, // string or array
+    required: React.PropTypes.bool.isRequired,
+    present: React.PropTypes.bool.isRequired,
+    blocked: React.PropTypes.bool,
+    spins: React.PropTypes.bool,
+  },
+
   render() {
-    // destructure this.props
-    var {
-      expressionChain: expressionChain,
-      required: required,
-      present: present
-    } = this.props;
+    var { description, required, present, blocked, spins } = this.props;
 
-    var description =
-      // either the passed description, or,
-      this.props.description ||
-      // the expression chain translated to plain English
-      expressionChain.map(function (exp, i) {
-        // add spaces to the expression name and lowercase it
-        var readableExp = exp.replace(/(.)([A-Z])/g, '$1 $2').toLowerCase();
-
-        return (
-          <span key={i}>
-            {/* add `contain` for the first expression and `within` subsequently */}
-            {i ? ' within ' : 'contain '}
-            {/* prepend with 'a' or 'an', depending on the first character */}
-            {isVowel(exp[0]) ? 'an ' : 'a '}
-            <strong>
-              {readableExp}
-            </strong>
-          </span>
-        );
-      });
-
-    var instructions = `Program must ${required ? '' : 'not '}`;
+    var className = blocked ? 'blocked' + (spins ? ' spinning' : '') :
+      present === required ? 'complete' : 'incomplete';
 
     return (
-      <li className={present === required ? 'complete' : 'incomplete'}>
-        <p>{instructions}{description}.</p>
+      <li className={className}>
+        <p>{description}.</p>
+        <Spinner radius={12} />
       </li>
     );
   },

@@ -1,61 +1,78 @@
-// Accepts a challenge object, containing whitelist and
-// blacklist arrays and a structure object for nested rules.
+// Accepts a challenge object, containing:
+//  - whitelist and blacklist arrays
+//  - a nestedRules object for nested rules
+//  - a customRules array,
 // Returns an object formatted for the UI state:
-// {expressionChains[], required[], present[]}.
+// {rules[], required[], present[]}.
 //
 var flatmap = require('flatmap');
+var fillArray = require('./fillArray');
 
-// Recursively walks the structure object to form "Rule Arrays".
-// Rule Arrays move from most to least nested & start with a bool.
+// Recursively walks the nested object to form rule chains.
+// rule chains move from most to least nested & start with a bool.
 // bool === if chain is required or prohibited in the challenge.
-function walk (obj, path = []) {
+function chainTransform (obj, path = []) {
   return flatmap(Object.keys(obj), function (key) {
     if (key === 'required') {
       // starts array with `true` or `false` and makes the
       // deepest-nested expression first in the array
       return [path.concat(obj[key]).reverse()];
     } else {
-      return walk(obj[key], path.concat(key));
+      return chainTransform(obj[key], path.concat(key));
     }
   });
 }
 
-function parseChallenge (challenge) {
-  var whitelist = challenge.whitelist || [];
-  var blacklist = challenge.blacklist || [];
-  var structure = challenge.structure || {};
+function parseChallenge (args, index) {
+  var {
+    whitelist = [],
+    blacklist = [],
+    nestedRules = {},
+    customRules = [],
+    output,
+    initialCode = '',
+  } = args;
 
-  var walkedStructure = walk(structure);
+  var nestedChains = chainTransform(nestedRules);
 
-  var expressionChains = whitelist.map(exp => [exp])
-    .concat(blacklist.map(exp => [exp]))
-    .concat(walkedStructure.map(arr => arr.slice(1)));
+  var numRules = whitelist.length + blacklist.length +
+                 nestedChains.length + customRules.length;
 
-  var required = whitelist.map(exp => true)
-    .concat(blacklist.map(exp => false))
-    .concat(walkedStructure.map(arr => arr[0]));
+  var rules = whitelist.map(exp => ({type: 'expressionChain', chain: [exp]}))
+    // white/blacklist have their expression strings wrapped in [] to match nestedChains
+    .concat(blacklist.map(exp => ({type: 'expressionChain', chain: [exp]})))
+    // nested expression chains have arrays of expression strings as values
+    .concat(nestedChains.map(chain => ({type: 'expressionChain', chain: chain.slice(1)})))
+    // custom rules have evaluation functions as values
+    .concat(customRules.map(({description, verify}) => ({type: 'custom', description, verify})));
 
-  var present = whitelist.map(exp => false)
-    .concat(blacklist.map(exp => false))
-    .concat(walkedStructure.map(arr => false));
+  var required = whitelist.map(() => true)
+    .concat(blacklist.map(() => false))
+    .concat(nestedChains.map(chain => chain[0]))
+    .concat(customRules.map(() => true));
 
-  var numRules = present.length;
+  if (output) {
+    output.type = 'output';
+    rules.push(output);
+    required.push(true);
+    ++numRules;
+  }
 
-  var title = challenge.title || (numRules ? 'JavaScript Challenge' : 'Sandbox');
-  var description = challenge.description || (numRules ? 'Meet all of the following requirements, then hit Submit to continue.' : 'There aren\'t any requirements in this level; just play around, and hit Submit when you\'re ready to continue.');
-  var initialText = challenge.initialText || '';
+  var present = fillArray(numRules, false);
 
-  var newRules = {
+  var title = args.title || (numRules ? 'JavaScript Challenge' : 'Sandbox');
+  var description = args.description || (numRules ? 'Meet all of the following requirements, then hit Submit to continue.' : 'There aren\'t any requirements in this level; just play around, and hit Submit when you\'re ready to continue.');
+
+  return {
+    index,
     title,
     description,
-    initialText,
-    expressionChains,
+    initialCode,
+    numRules,
+    rules,
     required,
-    present
+    present,
   };
-
-  // add the expressions from structure as rule Arrays and return
-  return newRules;
 }
 
 module.exports = parseChallenge;
