@@ -61,7 +61,7 @@
     "codemirror": "^5.2.0",
     "flatmap": "0.0.3",
     "jshint": "^2.7.0",
-    "operative": "^0.4.1",
+    "operative": "^0.4.4",
     "react": "^0.13.2",
     "reflux": "^0.2.7"
   }

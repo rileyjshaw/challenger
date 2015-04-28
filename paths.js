@@ -18,7 +18,7 @@ var paths = {
       ],
     },
     static: {
-      all: ['./node_modules/jailed/_*'],
+      all: ['./node_modules/operative/dist/operative.min.js'],
     },
     temp: './client/temp/',
   },
@@ -37,7 +37,7 @@ var paths = {
     },
     static: {
       dir: './demo/src/static/',
-      all: ['./demo/src/static/**/*', './node_modules/jailed/_*'],
+      all: ['./demo/src/static/**/*', './node_modules/operative/dist/operative.min.js'],
     },
   },
   server: {

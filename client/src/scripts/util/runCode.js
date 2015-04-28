@@ -1,13 +1,10 @@
-var operative = require('operative');
 var babel = require('babel');
 
-// TODO:
-// operative.setSelfURL('path/to/operative.js');
+// exposes global variable `operative`
+require('operative');
+operative.setSelfURL('./operative.min.js');
 
 function runCode (code, verify, trigger) {
-  // TODO: if limitExecutionTime can halt a worker without destroying
-  // it, we could do this with a single worker instead of making a
-  // new one every time code is run
   var worker = operative(function (__code__, __verify__) {
     eval(__code__);
   });
@@ -19,11 +16,11 @@ function runCode (code, verify, trigger) {
   }).code;
 
   // ensure that long-running plugins eg. while(1) will
-  // halt execution after 450ms
+  // halt execution after 700ms
   var limitExecutionTime = setTimeout(() => {
     worker.terminate();
     trigger(false);
-  }, 450);
+  }, 700);
 
   var passed = false;
   // latchedVerify only needs to be correct once for passed to === true
@@ -44,6 +41,5 @@ function runCode (code, verify, trigger) {
 var debounceTimeout;
 module.exports = function debouncedRunCode (...args) {
   clearTimeout(debounceTimeout);
-  // TODO: strange behaviour when this is dropped to setTimeout("", 0)
   debounceTimeout = setTimeout(() => runCode(...args), 450);
 };
