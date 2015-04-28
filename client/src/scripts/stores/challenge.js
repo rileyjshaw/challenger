@@ -26,6 +26,8 @@ var challengeStore = Reflux.createStore({
     this.customRules = [];
     this.nestedRules = [];
     this.walkableNestedRules = {};
+    this.debounceTimeout = null;
+    this.clearLastExecution = () => null;
     this.output = undefined;
 
     // register courseStore's changes
@@ -48,6 +50,8 @@ var challengeStore = Reflux.createStore({
       this.customRules = rules.filter(rule => rule.type === 'custom');
       this.nestedRules = rules.filter(rule => rule.type === 'expressionChain');
       this.walkableNestedRules = this.createWalkableRuleset(this.nestedRules);
+      this.debounceTimeout = null;
+      this.clearLastExecution = () => null;
       this.output = rules.filter(rule => rule.type === 'output')[0];
     }
   },
@@ -62,8 +66,18 @@ var challengeStore = Reflux.createStore({
     var checkingOutput = valid && this.output;
     this.verifyCustomRules(input);
 
+    // debounce runCode function so that it's only run after
+    // typing has paused for 450ms
+    clearTimeout(this.debounceTimeout);
+
+    // stop the last worker from running
+    this.clearLastExecution();
+
     if (checkingOutput) {
-      this.verifyOutput(input); // async, updates output rule
+      // async, updates output rule
+      this.debounceTimeout = setTimeout(() => {
+        this.clearLastExecution = this.verifyOutput(input);
+      }, 450);
     }
 
     this.triggerPresent(valid, checkingOutput); // sync, updates structure & custom rules
@@ -97,14 +111,15 @@ var challengeStore = Reflux.createStore({
 
   verifyOutput(input) {
     var {index, setup, teardown, verify} = this.output;
+
     var fullCode = `${setup};${input};${teardown}`;
-
-    this.present[index] = false;
-
-    runCode(fullCode, verify, function trigger (present) {
+    var trigger = (present) => {
       this.present[index] = present;
       this.triggerPresent(true, false);
-    }.bind(this));
+    };
+
+    this.present[index] = false;
+    return runCode(fullCode, verify, trigger);
   },
 
   // returns an obj that can be used by acorn's ancestor walk

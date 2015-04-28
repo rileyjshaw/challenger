@@ -22,11 +22,17 @@ function runCode (code, verify, trigger) {
     trigger(false);
   }, 700);
 
+  // clean up the worker and timeout if we finish early
+  function earlyExit () {
+    clearTimeout(limitExecutionTime);
+    worker.terminate();
+  }
+
   var passed = false;
   // latchedVerify only needs to be correct once for passed to === true
   function latchedVerify (...args) {
     if (!passed && verify(...args)) {
-      clearTimeout(limitExecutionTime);
+      earlyExit();
       passed = true;
       trigger(true);
     }
@@ -34,12 +40,8 @@ function runCode (code, verify, trigger) {
 
   // finally, spawn our worker
   worker(es5, latchedVerify);
+
+  return earlyExit;
 }
 
-// debounce the exported function so that it's only run after
-// typing has paused for 450ms
-var debounceTimeout;
-module.exports = function debouncedRunCode (...args) {
-  clearTimeout(debounceTimeout);
-  debounceTimeout = setTimeout(() => runCode(...args), 450);
-};
+module.exports = runCode;

@@ -24,7 +24,7 @@ var RuleList = createPureClass({
           key={i + 1}
           description={isChain ? makeChainReadable(chain, required[i]) : description}
           required={required[i]}
-          present={present[i]}
+          present={present[i] && (isOutput ? valid : true)}
           blocked={(isChain && !valid) || (isOutput && checkingOutput)}
           spins={isOutput}
         />
