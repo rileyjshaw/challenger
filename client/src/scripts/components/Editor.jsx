@@ -11,8 +11,9 @@ window.JSHINT = require('jshint').JSHINT;
 
 // ...so codemirror can access it in the following addons:
 require('codemirror/mode/javascript/javascript');
-require('codemirror/addon/lint/lint');
-require('codemirror/addon/lint/javascript-lint');
+// TODO: turn linting back on (removed for issue #1)
+//require('codemirror/addon/lint/lint');
+//require('codemirror/addon/lint/javascript-lint');
 
 var Editor = React.createClass({
   mixins: [Reflux.listenTo(challengeStore, 'onChallengeStoreChange')],
@@ -20,10 +21,10 @@ var Editor = React.createClass({
   componentDidMount() {
     var cm = CodeMirror.fromTextArea(this.getDOMNode(), {
       autofocus: true,
-      gutters: ['CodeMirror-lint-markers'],
       lineNumbers: true,
-      lint: { esnext: true },
       mode: 'javascript',
+//    lint: { esnext: true },
+//    gutters: ['CodeMirror-lint-markers'],
       styleActiveLine: true,
       theme: 'neo',
       indentWithTabs: false,
