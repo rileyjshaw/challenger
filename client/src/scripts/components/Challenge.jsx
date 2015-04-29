@@ -58,7 +58,7 @@ var Challenge = createPureClass({
           dangerouslySetInnerHTML={{
             __html: courseCompleted ?
               'Congratulations' :
-              `<small>${index + 1} of ${maxIndex + 1}</small>${title}`
+              (maxIndex ? `<small>${index + 1} of ${maxIndex + 1}</small>` : '') + title
           }}
         />
         <button className='unmount' onClick={this.props.unmount}>
