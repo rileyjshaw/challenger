@@ -74,6 +74,9 @@ var challengeStore = Reflux.createStore({
     this.clearLastExecution();
 
     if (checkingOutput) {
+      // sync, set output to false before running
+      this.present[this.output.index] = false;
+
       // async, updates output rule
       this.debounceTimeout = setTimeout(() => {
         this.clearLastExecution = this.verifyOutput(input);
@@ -118,7 +121,6 @@ var challengeStore = Reflux.createStore({
       this.triggerPresent(true, false);
     };
 
-    this.present[index] = false;
     return runCode(fullCode, verify, trigger);
   },
 
